@@ -30,6 +30,8 @@
 \newcommand{\p}{\textsf{P}}
 \newcommand{\op}{\textsf{Op}}
 \newcommand{\pp}{\textsf{PP}}
+\newcommand{\np}{\textsf{NP}}
+\newcommand{\conp}{\textsf{coNP}}
 \newcommand{\x}{\textsf{X}}
 \newcommand{\intersection}{\textsf{intersect}}
 \newcommand{\intersect}{\textsf{intersect}}
@@ -87,6 +89,26 @@ For every partial function $f \in \p$, there exists another partial function $L 
 To see this, consider simulating $T$ and cutting it off after $p(|x|)$ steps, which is followed by a rejection. In this statement, we can see $L$ as a language in the standard complexity class $\p$, so effectively any partial function can be extended to a language.
 
 \subsection{Operators}
+
+In this paper we focus on four operators on complexity classes: $\Sigma, \Pi, \bp, \parity$ which are defined in analogy to the relationship between $\p$ and the classes $\np$, $\conp$, $\bpp$, and $\parity\p$. For all of these definitions, we let $\langle x, y\rangle$ denote a single string of size $O(|x| + |y|)$ that represents the pair $(x,y)$.
+
+\begin{definition}\label{opsigma}
+For a complexity class $C$, we define the class $\Sigma \cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
+\begin{itemize}
+\item $f(x) = 1$ if and only if there exists a $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x,y \rangle) = 1$.
+\item $f(x) = 0$ if and only if for every $y \in \{0,1\}^{p(|x|)}$, we have $g(\langle x, y\rangle) = 0$.
+\item $f(x) = \x$ otherwise.
+\end{itemize}
+\end{definition}
+
+\begin{definition}\label{oppi}
+For a complexity class $C$, we define the class $\Pi \cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
+\begin{itemize}
+\item $f(x) = 1$ if and only if for every $y \in \{0,1\}^{p(|x|)}$, we have $g(\langle x,y \rangle) = 1$.
+\item $f(x) = 0$ if and only if there exists $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y\rangle) = 0$.
+\item $f(x) = \x$ otherwise.
+\end{itemize}
+\end{definition}
 
 %\section{Closed Under Intersection}
 \section{Amplification of $\bp$ to $\strongbp$}
@@ -160,6 +182,10 @@ While this paper applies Theorem \ref{oracle} only in the case where $C$ is $\{\
 \begin{thebibliography}{9}
 
 \bibitem{Beigel} Beigel, R., Reingold, N., and Spielman, D.A. \emph{PP is closed under intersection}, Proceedings of ACM Symposium on Theory of Computing 1991, pp. 1-9, 1991.
+
+\bibitem{Schoning} Sch\"oning, U. \emph{Probabilitistic complexity classes and lowness}, Proceedings of the 2nd IEEE Conference on Structure in Complexity Theory, 1987, pp. 2-8.
+
+\bibitem{Schoning2} Sch\"oning, U. \emph{The power of counting}, Proceedings of the 3rd IEEE Conference on Structure in Complexity Theory, 1988, pp. 2-9.
 
 \bibitem{Toda}Toda, S. \emph{PP is as Hard as the Polynomial-Time Hierarchy.} Siam Journal of Computing. Vol. 20, No. 5, pp. 865-877. Oct 1991.
 
