@@ -25,6 +25,7 @@
 \newcommand{\parity}{\oplus}
 \newcommand{\p}{\textsf{P}}
 \newcommand{\op}{\textsf{Op}}
+\newcommand{\pp}{\textsf{PP}}
 
 \begin{document}
 
@@ -76,6 +77,9 @@ Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Th
 \begin{proof}
 The direction $\parity \cdot C \subseteq \parity \cdot (\p^{\parity \cdot C})$ is trivial. Let us consider the interesting direction\linebreak $\parity \cdot (\p^{\parity \cdot C})\subseteq \parity\cdot C$.
 \end{proof}
+\begin{remark}\emph{
+While this paper applies Theorem \ref{oracle} only in the case where $C$ is $\{\Sigma,\Pi,\bp,\parity\}$-constructible, it can also be used to show, for instance, that $\parity \cdot (\p^{\parity \cdot \pp}) = \parity \cdot \pp$, although it is nontrivial to show that $\pp$ is closed under intersection. For a proof, see \cite{Beigel}.
+}\end{remark}
 
 \section{Conclusion}
 
@@ -83,9 +87,11 @@ The direction $\parity \cdot C \subseteq \parity \cdot (\p^{\parity \cdot C})$ i
 
 \begin{thebibliography}{9}
 
+\bibitem{Beigel} Beigel, R., Reingold, N., and Spielman, D.A. \emph{PP is closed under intersection}, Proceedings of ACM Symposium on Theory of Computing 1991, pp. 1-9, 1991.
+
 \bibitem{Toda}Toda, S. \emph{PP is as Hard as the Polynomial-Time Hierarchy.} Siam Journal of Computing. Vol. 20, No. 5, pp. 865-877. Oct 1991.
 
-\bibitem{Toda2} Toda, S.; Ogiwara, M. \emph{Counting classes are at least as hard as the polynomial-time hierarchy,} Structure in Complexity Theory Conference, 1991, Proceedings of the Sixth Annual, pp. 2-12, 30 Jun-3 Jul 1991.
+\bibitem{Toda2} Toda, S. and Ogiwara, M. \emph{Counting classes are at least as hard as the polynomial-time hierarchy,} Structure in Complexity Theory Conference, 1991, Proceedings of the Sixth Annual, pp. 2-12, 30 Jun-3 Jul 1991.
 
 \end{thebibliography}
 
