@@ -41,7 +41,20 @@
 
 \section{Definitions}
 
-\section{Essential Properties}
+\section{Closed Under Intersection}
+%\section{Essential Properties} We should call it this if we have more properties to put here
+
+Consider the following property of a complexity class $C$:
+\begin{definition}\label{defintersection}\emph{
+We say that a class $C$ is \emph{closed under intersection} if for any languages $L_1,L_2,...,L_k \in C$, the language $\{(x_1,...,x_k) : x_i \in L_i ~ \forall i\}$ is in $C$.
+}\end{definition}
+It is obvious that a class such as $\p$ is closed under intersection. We will now show that the operators $\Sigma$, $\Pi$, $\bp$, and $\parity$ all preserve this property, which will be important in Section \ref{oracle}
+\begin{theorem}\label{theoremintersection}
+Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then $C$ is closed under intersection.
+\end{theorem}
+\begin{proof}
+
+\end{proof}
 
 \section{Amplification of $\bp$ to \strongbp}
 
@@ -64,14 +77,14 @@ If $C$ is a complexity class which is closed under majority reductions, then\lin
 \end{enumerate}
 \end{lemma}
 \begin{proof}
-Part (a) is trivial. For part (b), we consider (i), (ii), (iii), and (iv) separately. Part (iv) is the most difficult, and will not be finished until section \ref{oracle}.
+Part (a) is trivial. For part (b), we consider (i), (ii), (iii), and (iv) separately. Part (iv) is the most difficult, and will not be finished until Section \ref{oracle}.
 \end{proof}
 
 \section{An Oracle Result}\label{oracle}
 
 To complete the proof of Lemma \ref{ampliftymainlemma} (b-iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
 
-\begin{theorem}\label{oracle}
+\begin{theorem}\label{oracleparityc}
 Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
 \end{theorem}
 \begin{proof}
