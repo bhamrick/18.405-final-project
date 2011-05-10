@@ -106,7 +106,18 @@ Now, we see that majority reductions are exactly what we want for amplification:
 \begin{lemma}\label{majorityimpliesamplify}
 If $C$ is a complexity class which is closed under majority reductions, then\linebreak \emph{$\bp \cdot C = \strongbp \cdot C$.}
 \end{lemma}
-\begin{proof} \end{proof}
+\begin{proof}
+This is now the same application of the Chernoff bound which shows that $\bp \cdot \p = \strongbp \cdot \p$. Suppose $L$ is a language in $\bp \cdot C$. Then there is a language $M$ in $C$ such that $\pr_y [(x,y) \in M] > 2/3$ if $x\in L$ and $\pr_y [(x,y)\in M] < 1/3$ if $x\not\in L$, where the length of $y$ is polynomial in the length of $x$. Let $q$ be a polynomial, where $e^{-q(|x|)}$ is the desired error probability. Let $k = 48q(|x|)$.
+
+Here is how we determine if a string $x$ is in $L$ with error probability $e^{-q(|x|)}$. Choose $k$ strings $y_1,y_2,...,y_k$ randomly. Then accept if a majority of $(x,y_1),(x,y_2),...,(x,y_k)$ are in $M$, which is possible to do since $\majority(M) \in C$. Let $X_i$ be an indicator variable which is $1$ if $(x,y_i)$ is in $M$. Then by the Chernoff bound,
+\begin{align*}
+\pr\left[\sum X_i < k/2\right] &= \pr\left[\sum X_i < (1 - 1/4)(2k/3)\right]\\
+&< e^{-(1/4)^2 (2k/3) / 2}\\
+&= e^{-q(|x|)}
+\end{align*}
+We can do this for any polynomial $q$, so $L \in \strongbp \cdot C$. Hence, $\bp \cdot C = \strongbp \cdot C$.
+\end{proof}
+
 Thus, in order to prove Theorem \ref{amplify}, we just need to show that any \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class is closed under majority reductions. In order to show that these are closed under majority reductions, we will need the help of another property:
 \begin{definition}\label{defintersection}\emph{
 We say that a class $C$ is \emph{closed under intersection} if for any language $L \in C$, the language $\intersection(L) = \{(x_1,...,x_k) : k\in\mathbb{N}, x_i \in L_i ~ \forall i\}$ is in $C$.
