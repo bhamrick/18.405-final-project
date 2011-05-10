@@ -56,10 +56,26 @@ If $C$ is a complexity class which is closed under majority reductions, then\lin
 \end{lemma}
 
 \begin{lemma}\label{ampliftymainlemma}
-Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under majority reductions.
+\begin{enumerate}
+\item[] 
+\item[(a)] \emph{$\p$} is closed under majority reductions.
+\item[(b)] Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under majority reductions.
+\end{enumerate}
 \end{lemma}
+\begin{proof}
+Part (a) is trivial. For part (b), we consider (i), (ii), (iii), and (iv) separately. Part (iv) is the most difficult, and will not be finished until section \ref{oracle}.
+\end{proof}
 
-\section{An Oracle Result}
+\section{An Oracle Result}\label{oracle}
+
+To complete the proof of Lemma \ref{ampliftymainlemma} (b-iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
+
+\begin{theorem}\label{oracle}
+Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
+\end{theorem}
+\begin{proof}
+
+\end{proof}
 
 \section{Conclusion}
 
