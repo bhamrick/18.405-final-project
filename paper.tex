@@ -25,10 +25,12 @@
 \newcommand{\bp}{\textsf{BP}}
 \newcommand{\strongbp}{\widehat{\textsf{BP}}}
 %\newcommand{\strongbp}{\textsf{strongBP}}
+\newcommand{\bpp}{\textsf{BPP}}
 \newcommand{\parity}{\oplus}
 \newcommand{\p}{\textsf{P}}
 \newcommand{\op}{\textsf{Op}}
 \newcommand{\pp}{\textsf{PP}}
+\newcommand{\x}{\textsf{X}}
 \newcommand{\intersection}{\textsf{intersect}}
 \newcommand{\intersect}{\textsf{intersect}}
 \newcommand{\majority}{\textsf{majority}}
@@ -46,6 +48,45 @@
 \section{Introduction}
 
 \section{Definitions}
+
+\subsection{Partial Functions}
+
+Complexity classes are usually defined in terms of \emph{languages}. A language $L$ is a subset of $\bigcup_{n=0}^{\infty}\{0,1\}^n$, which can also be viewed as a function $f_L: \bigcup_{n=0}^{\infty}\{0,1\}^n \to \{0,1\}$, where $f_L(x) = 1$ if and only if $x \in L$. However, the definitions of some complexity classes in terms of languages leads to undesirable consequences. For example, the standard definition of $\bpp$ means that a ``$\bpp$-machine'' must accept \emph{every} input with probability outside the range $[\frac{1}{3},\frac{2}{3}]$, but nearly every natural problem whose solution is described as a $\bpp$ algorithm in fact has a promise associated. The concept of a partial function is a natural way to resolve this issue.
+
+\begin{definition}\label{partialfunction}
+A \emph{partial function} is a function $f: \bigcup_{n=0}^{\infty}\{0,1\}^n \to \{0,1,\x\}$.
+\end{definition}
+
+\subsection{Complexity Classes}
+
+For the entirety of this paper, we will use the following definitions of a complexity class and $\p$.
+
+\begin{definition}\label{complexityclass}
+A \emph{complexity class} is a set of partial functions.
+\end{definition}
+
+\begin{definition}\label{p}
+The complexity class $\p$ is the set of partial functions such that $f \in \p$ if and only if there exists a polynomial $p$ and a Turing machine $T$ such that:
+\begin{itemize}
+\item If $f(x) = 1$, then $T$ halts after at most $p(|x|)$ steps and accepts.
+\item If $f(x) = 0$, then $T$ halts after at most $p(|x|)$ steps and rejects.
+\end{itemize}
+\end{definition}
+
+Notice that there is no restriction on $T$ if $f(x) = \x$. However, this definition of $\p$ can be reconciled with the standard definition of $\p$ in the following way.
+
+\begin{remark}
+For every partial function $f \in \p$, there exists another partial function $L \in \p$ such that
+\begin{itemize}
+\item For all $x$, $L(x) = 0$ or $L(x) = 1$.
+\item If $f(x) = 1$, then $L(x) = 1$.
+\item If $f(x) = 0$, then $L(x) = 0$.
+\end{itemize}
+\end{remark}
+
+To see this, consider simulating $T$ and cutting it off after $p(|x|)$ steps, which is followed by a rejection. In this statement, we can see $L$ as a language in the standard complexity class $\p$, so effectively any partial function can be extended to a language.
+
+\subsection{Operators}
 
 %\section{Closed Under Intersection}
 \section{Amplification of $\bp$ to $\strongbp$}
