@@ -24,6 +24,7 @@
 \newcommand{\strongbp}{\textsf{strongBP}}
 \newcommand{\parity}{\oplus}
 \newcommand{\p}{\textsf{P}}
+\newcommand{\op}{\textsf{Op}}
 
 \begin{document}
 
@@ -42,6 +43,21 @@
 \section{Essential Properties}
 
 \section{Amplification of $\bp$ to \strongbp}
+
+The aim of this section is to prove the following amplification result:
+
+\begin{theorem}\label{amplify}
+Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then \emph{$\bp \cdot C = \strongbp \cdot C$}.
+\end{theorem}
+A proof of this theorem is immediate by induction from the following two lemmas:
+
+\begin{lemma}\label{majorityimpliesamplify}
+If $C$ is a complexity class which is closed under majority reductions, then\linebreak \emph{$\bp \cdot C = \strongbp \cdot C$.}
+\end{lemma}
+
+\begin{lemma}\label{ampliftymainlemma}
+Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under majority reductions.
+\end{lemma}
 
 \section{An Oracle Result}
 
