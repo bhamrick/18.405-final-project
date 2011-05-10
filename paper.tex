@@ -21,11 +21,15 @@
 \include{header}
 
 \newcommand{\bp}{\textsf{BP}}
-\newcommand{\strongbp}{\textsf{strongBP}}
+\newcommand{\strongbp}{\widehat{\textsf{BP}}}
+%\newcommand{\strongbp}{\textsf{strongBP}}
 \newcommand{\parity}{\oplus}
 \newcommand{\p}{\textsf{P}}
 \newcommand{\op}{\textsf{Op}}
 \newcommand{\pp}{\textsf{PP}}
+\newcommand{\intersection}{\textsf{intersect}}
+\newcommand{\intersect}{\textsf{intersect}}
+\newcommand{\majority}{\textsf{majority}}
 
 \begin{document}
 
@@ -41,48 +45,55 @@
 
 \section{Definitions}
 
-\section{Closed Under Intersection}
-%\section{Essential Properties} We should call it this if we have more properties to put here
-
-Consider the following property of a complexity class $C$:
-\begin{definition}\label{defintersection}\emph{
-We say that a class $C$ is \emph{closed under intersection} if for any languages $L_1,L_2,...,L_k \in C$, the language $\{(x_1,...,x_k) : x_i \in L_i ~ \forall i\}$ is in $C$.
-}\end{definition}
-It is obvious that a class such as $\p$ is closed under intersection. We will now show that the operators $\Sigma$, $\Pi$, $\bp$, and $\parity$ all preserve this property, which will be important in Section \ref{oracle}
-\begin{theorem}\label{theoremintersection}
-Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then $C$ is closed under intersection.
-\end{theorem}
-\begin{proof}
-
-\end{proof}
-
-\section{Amplification of $\bp$ to \strongbp}
+%\section{Closed Under Intersection}
+\section{Amplification of $\bp$ to $\strongbp$}
 
 The aim of this section is to prove the following amplification result:
 
 \begin{theorem}\label{amplify}
 Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then \emph{$\bp \cdot C = \strongbp \cdot C$}.
 \end{theorem}
-A proof of this theorem is immediate by induction from the following two lemmas:
-
+In order to prove this result, we will use the concept of a majority reduction.
+\begin{definition}\label{defmajority}\emph{
+We say that a complexity class $C$ is \emph{closed under majority reductions} if for any language $L$, the language $\majority(L) = \{(x_1,...,x_k) : k \in \mathbb{N}, |\{x_i : x_i \in L\}| \ge k/2\}$ is in $C$.
+}\end{definition}
+Now, we have the following lemma:
 \begin{lemma}\label{majorityimpliesamplify}
 If $C$ is a complexity class which is closed under majority reductions, then\linebreak \emph{$\bp \cdot C = \strongbp \cdot C$.}
 \end{lemma}
+\begin{proof} \end{proof}
+Thus, in order to prove Theorem \ref{amplify}, we just need to show that any \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class is closed under majority reductions. In order to show that these are closed under majority reductions, we will need the help of another property:
+\begin{definition}\label{defintersection}\emph{
+We say that a class $C$ is \emph{closed under intersection} if for any language $L \in C$, the language $\intersection(L) = \{(x_1,...,x_k) : k\in\mathbb{N}, x_i \in L_i ~ \forall i\}$ is in $C$.
+}\end{definition}
+We will demonstrate that all $\{\Sigma, \Pi, \bp, \parity\}$-constructible complexity classes are closed under intersection and under majority reductions. To do this, we will use induction on the number of operators in $C$. Clearly $\p$ is closed under intersection and majority reductions. Thus, the result follows from the following two lemmas:
 
-\begin{lemma}\label{ampliftymainlemma}
-\begin{enumerate}
-\item[] 
-\item[(a)] \emph{$\p$} is closed under majority reductions.
-\item[(b)] Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under majority reductions.
-\end{enumerate}
+\begin{lemma}\label{intersectionlemma}
+Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions and under intersection, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under intersection.
+%Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then $C$ is closed under intersection.
 \end{lemma}
-\begin{proof}
-Part (a) is trivial. For part (b), we consider (i), (ii), (iii), and (iv) separately. Part (iv) is the most difficult, and will not be finished until Section \ref{oracle}.
+
+\begin{lemma}\label{amplifymainlemma}
+Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under majority reductions.
+\end{lemma}
+We begin with the proof of Lemma \ref{intersectionlemma}
+\begin{proof} \emph{(Lemma \ref{intersectionlemma})}
+
+Suppose $L \in \Sigma\cdot C$. Then there exists a $C$ machine $M$ such that $x \in L_1$ if and only if there exists some $y$ (of length polynomial in the length of $x$) such that $M$ accepts $(x, y)$. Now, we want to construct a $\Sigma \cdot C$ machine for $\intersect(L)$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if all $x_i$ are in $L$. To do this, we just guess a $k$-tuple $(y_1,y_2,...,y_k)$, and then check if $M$ accepts $(x_1, y_1)$, $(x_2, y_2)$, ..., and $(x_k, y_k)$. This is equivalent to checking that $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \intersect(M)$, and by assumption, $\intersect(M)$ is in $C$ since $M$ is in $C$.
+
+The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
+
+Now we consider $\bp \cdot C$. By assumption, $C$ is closed under majority reductions, so by Lemma \ref{majorityimpliesamplify}, $\bp \cdot C = \strongbp \cdot C$.
+\end{proof}
+
+\begin{proof} \emph{(Lemma \ref{amplifymainlemma})}
+
+We consider (i), (ii), (iii), and (iv) separately. Part (iv) is the most difficult, and will not be finished until Section \ref{oracle}.
 \end{proof}
 
 \section{An Oracle Result}\label{oracle}
 
-To complete the proof of Lemma \ref{ampliftymainlemma} (b-iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
+To complete the proof of Lemma \ref{amplifymainlemma} (b-iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
 
 \begin{theorem}\label{oracleparityc}
 Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
