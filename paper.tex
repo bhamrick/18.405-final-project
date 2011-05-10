@@ -54,9 +54,7 @@
 Complexity classes are usually defined in terms of \emph{languages}. A language $L$ is a subset of $\bigcup_{n=0}^{\infty}\{0,1\}^n$, which can also be viewed as a function $f_L: \bigcup_{n=0}^{\infty}\{0,1\}^n \to \{0,1\}$, where $f_L(x) = 1$ if and only if $x \in L$. However, the definitions of some complexity classes in terms of languages leads to undesirable consequences. For example, the standard definition of $\bpp$ means that a ``$\bpp$-machine'' must accept \emph{every} input with probability outside the range $[\frac{1}{3},\frac{2}{3}]$, but nearly every natural problem whose solution is described as a $\bpp$ algorithm in fact has a promise associated. The concept of a partial function is a natural way to resolve this issue.
 
 \begin{definition}\label{partialfunction}
-\emph{
 A \emph{partial function} is a function $f: \bigcup_{n=0}^{\infty}\{0,1\}^n \to \{0,1,\x\}$.
-}
 \end{definition}
 
 \subsection{Complexity Classes}
@@ -64,19 +62,15 @@ A \emph{partial function} is a function $f: \bigcup_{n=0}^{\infty}\{0,1\}^n \to 
 For the entirety of this paper, we will use the following definitions of a complexity class and $\p$.
 
 \begin{definition}\label{complexityclass}
-\emph{
 A \emph{complexity class} is a set of partial functions.
-}
 \end{definition}
 
 \begin{definition}\label{p}
-\emph{
 The complexity class $\p$ is the set of partial functions such that $f \in \p$ if and only if there exists a polynomial $p$ and a Turing machine $T$ such that:
 \begin{itemize}
 \item If $f(x) = 1$, then $T$ halts after at most $p(|x|)$ steps and accepts.
 \item If $f(x) = 0$, then $T$ halts after at most $p(|x|)$ steps and rejects.
 \end{itemize}
-}
 \end{definition}
 
 Notice that there is no restriction on $T$ if $f(x) = \x$. However, this definition of $\p$ can be reconciled with the standard definition of $\p$ in the following way.
@@ -114,9 +108,9 @@ If $C$ is a complexity class which is closed under majority reductions, then\lin
 \end{lemma}
 \begin{proof} \end{proof}
 Thus, in order to prove Theorem \ref{amplify}, we just need to show that any \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class is closed under majority reductions. In order to show that these are closed under majority reductions, we will need the help of another property:
-\begin{definition}\label{defintersection}\emph{
+\begin{definition}\label{defintersection}
 We say that a class $C$ is \emph{closed under intersection} if for any language $L \in C$, the language $\intersection(L) = \{(x_1,...,x_k) : k\in\mathbb{N}, x_i \in L_i ~ \forall i\}$ is in $C$.
-}\end{definition}
+\end{definition}
 We will demonstrate that all $\{\Sigma, \Pi, \bp, \parity\}$-constructible complexity classes are closed under intersection and under majority reductions. To do this, we will use induction on the number of operators in $C$. Clearly $\p$ is closed under intersection and majority reductions. Thus, the result follows from the following two lemmas:
 
 \begin{lemma}\label{intersectionlemma}
