@@ -233,10 +233,13 @@ Thus, there is at least a $2/3$ chance that $\majority(\majority(M))$ accepts $(
 To complete the proof of Lemma \ref{amplifymainlemma} (iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
 
 \begin{theorem}\label{oracleparityc}
-Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
+%Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
+Let $C$ be a class which is closed under intersection. Then \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
 \end{theorem}
 \begin{proof}
 The direction $\parity \cdot C \subseteq \parity \cdot (\p^{\parity \cdot C})$ is trivial. Let us consider the interesting direction\linebreak $\parity \cdot (\p^{\parity \cdot C})\subseteq \parity\cdot C$.
+
+Suppose $L \in \parity \cdot (P^{\parity\cdot C})$. Then, there is some polynomial time turing machine $T$, equipped with an oracle to some language $M \in \parity\cdot C$, and some polynomial $p$, such that for any $x$, then among all $y$ with $|y| = p(|x|)$, an odd number of them are such that $T$ accepts $(x,y)$, and $T$ rejects on the rest.
 \end{proof}
 \begin{remark}\emph{
 While this paper applies Theorem \ref{oracle} only in the case where $C$ is $\{\Sigma,\Pi,\bp,\parity\}$-constructible, it can also be used to show, for instance, that $\parity \cdot (\p^{\parity \cdot \pp}) = \parity \cdot \pp$, although it is nontrivial to show that $\pp$ is closed under intersection. For a proof, see \cite{Beigel}.
