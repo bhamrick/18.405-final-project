@@ -322,12 +322,15 @@ On the other hand, if any $a_i$ is incorrect, then the first such incorrect answ
 Hence, the sum will be odd if and only if $T$ accepts when the oracle calls are correct. Therefore, $L$ accepts $x$ if and only if this accepts for an odd number of choices of all the $a_i$, $b_i$, and $y_i$, and $L$ rejects $x$ otherwise. Thus, $L \in \parity \cdot C$. This is true for any $L \in \p^{\parity \cdot C}$, so $\p^{\parity \cdot C} \subseteq \parity \cdot C$.
 \end{proof}
 \begin{remark}\emph{
-While this paper applies Theorem \ref{oracle} only in the case where $C$ is $\{\Sigma,\Pi,\bp,\parity\}$-constructible, it can also be used to show, for instance, that $\parity \cdot (\p^{\parity \cdot \pp}) = \parity \cdot \pp$, although it is nontrivial to show that $\pp$ is closed under intersection. For a proof, see \cite{Beigel}.
+While this paper applies Theorem \ref{oracle} only in the case where $C$ is $\{\Sigma,\Pi,\bp,\parity\}$-constructible, it can also be used to show, for instance, that $\p^{\parity \cdot \pp} = \parity \cdot \pp$, although it is nontrivial to show that $\pp$ is closed under intersection. For a proof, see \cite{Beigel}.
 }\end{remark}
 
 We can use this remarkable fact to finish the proof of Lemma \ref{amplifymainlemma}, thus proving Theorem \ref{amplify}.
+\begin{proof}[Proof of Lemma \ref{amplifymainlemma} (iv)]
+Take any language $L \in \parity \cdot C$. We want to show that $\majority(L)$ is in $\parity \cdot C$. It is easy to see that $\majority(L) \in \p^{\parity \cdot C}$. For a given $k$-tuple $(x_1,x_2,...,x_k)$, we use the oracle call to $\parity \cdot C$ to determine how many of the $x_i$ are accepted in $L$, and how many are rejected. If more than half are accepted, we accept, and if more than half are rejected, we reject.
 
-
+Thus, $\majority(L) \in \p^{\parity \cdot C}$. But we know that $C$ is closed under intersection and under polynomial reductions. Thus, we can apply Theorem \ref{oracleparityc} to get that $\p^{\parity \cdot C} = \parity \cdot C$. Hence, $\majority(L) \in \parity \cdot C$. Therefore $\parity \cdot C$ is closed under majority reductions.
+\end{proof}
 
 \section{Conclusion}
 
