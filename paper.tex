@@ -183,8 +183,9 @@ Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class.
 Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. If $C$ is closed under majority reductions, then (i) \emph{$\Sigma \cdot C$}, (ii) \emph{$\Pi \cdot C$}, (iii) \emph{$\bp \cdot C$}, and (iv) \emph{$\parity \cdot C$} are all closed under majority reductions.
 \end{lemma}
 We begin with the proof of Lemma \ref{intersectionlemma}
-\begin{proof} \emph{(Lemma \ref{intersectionlemma})}
+\begin{proof}[Proof of Lemma \ref{intersectionlemma}]
 \begin{enumerate}
+\item[]
 \item[(i)] Suppose $L \in \Sigma\cdot C$. Then there exists a language $M\in C$ and a polynomial $p$ such that $x \in L$ if and only if there exists some $y$ with $|y| = p(|x|)$ such that $(x, y)\in M$. Now, we want to construct a $\Sigma \cdot C$ machine for $\intersect(L)$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if all $x_i$ are in $L$. To do this, we just guess a $k$-tuple $(y_1,y_2,...,y_k)$, and then check if $M$ accepts $(x_1, y_1)$, $(x_2, y_2)$, ..., and $(x_k, y_k)$. This is equivalent to checking that $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \intersect(M)$, and by assumption, $\intersect(M)$ is in $C$ since $M$ is in $C$.
 
 \item[(ii)] The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
@@ -209,7 +210,7 @@ Thus, we get that $(X_1,...,X_k)\in\intersect(\majority(M))$ with probability gr
 \end{enumerate}
 \end{proof}
 
-\begin{proof} \emph{(Lemma \ref{amplifymainlemma})}
+\begin{proof}[Proof of Lemma \ref{amplifymainlemma}]
 
 We consider (i), (ii), (iii), and (iv) separately. Part (iv) is the most difficult, and will not be finished until Section \ref{oracle}.
 \end{proof}
