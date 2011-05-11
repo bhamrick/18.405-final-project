@@ -268,17 +268,20 @@ Thus, we get that $\intersect(\majority(g))(\langle X_1,...,X_k\rangle) = \inter
 
  The proofs of (i), (ii), and (iii) are similar to the proofs in Lemma \ref{intersectionlemma}. Part (iv) is the most difficult, and will not be finished until Section \ref{oracle}.
 \begin{enumerate}
-\item[(i)] Suppose $L \in \Sigma \cdot C$. Then there exists a language $M \in C$ and a polynomial $p$ such that $x\in L$ if and only if there exists some $y$ with $|y| = p(x)$ such that $(x,y) \in M$. Now, we want to show that $\intersect(L) \in \Sigma \cdot C$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if at least half of the $x_i$ are in $L$ using the power of $\Sigma \cdot C$. To do this, just guess a $k$-tuple $(y_1,y_2,...,y_k)$ with $|y_i| = p(|x_i)|$ and then check if $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \majority(M)$. Since $C$ is closed under majority reductions, $\majority(M) \in C$. There exists such $y_i$'s if and only if a majority of the $x_i$ are in $L$.
-\item[(ii)] The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
-\item[(iii)] Now we consider $\bp \cdot C$. Let $L$ be a language in $\bp \cdot C$. Then there exists a language $M \in C$ and a polynomial $p$ such that if $y$ is chosen as a random string with $|y| = p(|x|)$, then
-\begin{center}
-$\pr[M\text{ accepts }(x,y)] > 2/3$ if $L$ accepts $x$,\\
-$\pr[M\text{ rejects }(x,y)] > 2/3$ if $L$ rejects $x$.
-\end{center}
-For any $(x_1,x_2,...,x_k)$, we randomly choose random strings $y_{i,j}$ of length $p(|x_i|)$, for $1\le i\le k$ and $j\le 1\le \ell$, where $\ell = \lceil -48\ln(1 - (2/3)^{1/k}) \rceil$.
-Now, $\majority(\majority(M)) \in C$, since $C$ is closed under majority reductions. By the Chernoff bound, (as in Lemma \ref{intersectionlemma}) there is at least a $1-(2/3)^{1/k}$ probability that some $X_i = ((x_i,y_{i,1}), (x_i, y_{i,2}),...,(x_i, x_{i,\ell}))$ is ``correct," by which we mean that $\majority(M)$ accepts $X_i$ if $L$ accepts $x_i$, and $\majority(M)$ rejects $X_i$ if $L$ rejects $x_i$.
+\item[(i)] Suppose $f$ is a partial function in $\Sigma\cdot C$. Then there exists a partial function $g\in C$ and a polynomial $p$ such that $f(x) = 1$ if there exists some $y$ with $|y| = p(|x|)$ such that $g(\langle x,y\rangle) = 1$, and $f(x) = 0$ if for all $y$ with $|y| = p(|x|)$ we have $g(\langle x, y\rangle) = 0$. Now, we want to show that $\majority(f) \in \Sigma \cdot C$. Now, $\majority(f)(\langle x_1,...,x_k\rangle) = 1$ if and only if there exist $y_1,...,y_k$ such that $g(\langle x_i, y_i\rangle) = 1$ for at least half of the $i$, which is equivalent to saying that $\majority(g)(\langle \langle x_1,y_1\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$. Similarly, $\majority(f)(\langle x_1,...,x_k\rangle) = 0$ if and only if for more all $y_1,...,y_k$, we have $\majority(g)(\langle \langle x_1,y_1\rangle,...,\langle x_k,y_k\rangle\rangle) = 0$. Thus, $\majority(f) \in \Sigma \cdot C$.
 
-Thus, there is at least a $2/3$ chance that $\majority(\majority(M))$ accepts $(X_1,X_2,...,X_k)$ if $\majority(L)$ accepts $(x_1,x_2,...,x_k)$, and there is at least a $2/3$ chance that $\majority(\majority(M))$ rejects $(X_1,X_2,...,X_k)$ if $\majority(L)$ rejects $(x_1,x_2,...,x_k)$. Therefore, $\majority(L) \in \bp \cdot C$.
+%Suppose $L \in \Sigma \cdot C$. Then there exists a language $M \in C$ and a polynomial $p$ such that $x\in L$ if and only if there exists some $y$ with $|y| = p(x)$ such that $(x,y) \in M$. Now, we want to show that $\intersect(L) \in \Sigma \cdot C$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if at least half of the $x_i$ are in $L$ using the power of $\Sigma \cdot C$. To do this, just guess a $k$-tuple $(y_1,y_2,...,y_k)$ with $|y_i| = p(|x_i)|$ and then check if $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \majority(M)$. Since $C$ is closed under majority reductions, $\majority(M) \in C$. There exists such $y_i$'s if and only if a majority of the $x_i$ are in $L$.
+\item[(ii)] The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
+\item[(iii)] Now we consider $\bp \cdot C$. Let $f$ be a partial function in $\bp \cdot C$. Then there exists a partial function $g \in C$ and a polynomial $p$ such that if $y \in \{0,1\}^{p(|x|)}$ is chosen as a random string, then $\pr[f(x) = g(\langle x,y\rangle)] > 2/3$ if $f(x) \ne \x$.
+
+%\begin{center}
+%$\pr[M\text{ accepts }(x,y)] > 2/3$ if $L$ accepts $x$,\\
+%$\pr[M\text{ rejects }(x,y)] > 2/3$ if $L$ rejects $x$.
+%\end{center}
+For any $\langle x_1,x_2,...,x_k\rangle$, we randomly choose random strings $y_{i,j}$ of length $p(|x_i|)$, for $1\le i\le k$ and $j\le 1\le \ell$, where $\ell = \lceil -48\ln(1 - (2/3)^{1/k}) \rceil$.
+Now, $\majority(\majority(g)) \in C$, since $C$ is closed under majority reductions. By the Chernoff bound, (as in Lemma \ref{intersectionlemma}) there is at least a $1-(2/3)^{1/k}$ probability that some $X_i = \langle\langle x_i,y_{i,1}\rangle, \langle x_i, y_{i,2}\rangle,...,\langle x_i, x_{i,\ell}\rangle\rangle$ is ``correct," by which we mean that $\majority(g)(X_i) = f(x_i)$.
+
+Thus, there is at least a $2/3$ chance that \begin{center}$\majority(\majority(g))(\langle X_1,X_2,...,X_k\rangle) = \majority(f)(\langle x_1,x_2,...,x_k\rangle)$.\end{center} Therefore, $\majority(f) \in \bp \cdot C$.
 \end{enumerate}
 \end{proof}
 
