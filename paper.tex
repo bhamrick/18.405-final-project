@@ -196,7 +196,7 @@ is in $C$.
 \end{definition}
 Now, we see that majority reductions are exactly what we want for amplification:
 \begin{lemma}\label{majorityimpliesamplify}
-If $C$ is a complexity class which is closed under majority reductions and polynomial time reductions, then\linebreak \emph{$\bp \cdot C = \strongbp \cdot C$.}
+If $C$ is a complexity class which is closed under majority reductions and polynomial time reductions, then \emph{$\bp \cdot C = \strongbp \cdot C$.}
 \end{lemma}
 \begin{proof}
 This is now the same application of the Chernoff bound which shows that $\bp \cdot \p = \strongbp \cdot \p$. Suppose $f$ is a partial function in $\bp \cdot C$. Then there is a partial function $g$ in $C$ such that $\pr_y [g(\langle x,y\rangle) = 1] > 2/3$ if $x\in L$ and $\pr_y [g(\langle x, y\rangle) = 0] > 2/3$ if $x\not\in L$, where the length of $y$ is equal to $p(|x|)$ for some polynomial $p$. Let $q$ be a polynomial, where $e^{-q(|x|)}$ is the desired error probability. Let $k = 48q(|x|)$.
@@ -320,11 +320,14 @@ We claim that $ \#(a_1,...,a_{p(|x|)})$ is odd if and only if $a_1,a_2,...,a_{p(
 On the other hand, if any $a_i$ is incorrect, then the first such incorrect answer will have an even number of good triples.
 
 Hence, the sum will be odd if and only if $T$ accepts when the oracle calls are correct. Therefore, $L$ accepts $x$ if and only if this accepts for an odd number of choices of all the $a_i$, $b_i$, and $y_i$, and $L$ rejects $x$ otherwise. Thus, $L \in \parity \cdot C$. This is true for any $L \in \p^{\parity \cdot C}$, so $\p^{\parity \cdot C} \subseteq \parity \cdot C$.
-
 \end{proof}
 \begin{remark}\emph{
 While this paper applies Theorem \ref{oracle} only in the case where $C$ is $\{\Sigma,\Pi,\bp,\parity\}$-constructible, it can also be used to show, for instance, that $\parity \cdot (\p^{\parity \cdot \pp}) = \parity \cdot \pp$, although it is nontrivial to show that $\pp$ is closed under intersection. For a proof, see \cite{Beigel}.
 }\end{remark}
+
+We can use this remarkable fact to finish the proof of Lemma \ref{amplifymainlemma}, thus proving Theorem \ref{amplify}.
+
+
 
 \section{Conclusion}
 
