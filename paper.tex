@@ -164,12 +164,12 @@ The aim of this section and the next is to prove the following amplification res
 \begin{theorem}\label{amplify}
 Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then \emph{$\bp \cdot C = \strongbp \cdot C$}.
 \end{theorem}
-Initially, this may seem to be obviously true for the same reasons that $\bp \cdot \p = \strongbp \cdot \bp$. The problem is that amplification requires running some machine which accepts a language in $C$ more than once. This requires the structure of $C$ to allow for such repetitions. This brings us to the concept of majority reductions.
+Initially, this may seem to be obviously true for the same reasons that $\bp \cdot \p = \strongbp \cdot \p$. The problem is that amplification requires running some machine which accepts a language in $C$ more than once. This requires the structure of $C$ to allow for such repetitions. In particular, we will find that it is nontrivial when the $\parity$ operator is involved. This brings us to the concept of majority reductions.
 \begin{definition}\label{defmajority}
 We say that a complexity class $C$ is \emph{closed under majority reductions} if for any partial function $f \in C$, the partial function $\majority(f)$ defined by
 $$\majority(f)(\langle x_1, \ldots, x_k\rangle) = 
 \begin{cases}1 & \text{ if the number of $i$ such that }f(x_i) = 1\text{ is at least $\frac{k}{2}$} \\
-0 & \text{ if the number of $i$ such that }f(x_i) = 0\text{ is at least $\frac{k}{2}$}\\
+0 & \text{ if the number of $i$ such that }f(x_i) = 0\text{ is more than $\frac{k}{2}$}\\
 \x & \text{ otherwise}
 \end{cases}$$
 is in $C$.
@@ -179,7 +179,7 @@ Now, we see that majority reductions are exactly what we want for amplification:
 If $C$ is a complexity class which is closed under majority reductions and polynomial time reductions, then \emph{$\bp \cdot C = \strongbp \cdot C$.}
 \end{lemma}
 \begin{proof}
-This is now the same application of the Chernoff bound which shows that $\bp \cdot \p = \strongbp \cdot \p$. Suppose $f$ is a partial function in $\bp \cdot C$. Then there is a partial function $g$ in $C$ such that $\pr_y [g(\langle x,y\rangle) = 1] > 2/3$ if $x\in L$ and $\pr_y [g(\langle x, y\rangle) = 0] > 2/3$ if $x\not\in L$, where the length of $y$ is equal to $p(|x|)$ for some polynomial $p$. Let $q$ be a polynomial, where $e^{-q(|x|)}$ is the desired error probability. Let $k = 48q(|x|)$.
+This is now the same application of the Chernoff bound which shows that $\bp \cdot \p = \strongbp \cdot \p$. Suppose $f$ is a partial function in $\bp \cdot C$. Then there is a partial function $g$ in $C$ such that $\pr_y [g(\langle x,y\rangle) = 1] > 2/3$ if $f(x) = 1$ and $\pr_y [g(\langle x, y\rangle) = 0] > 2/3$ if $f(x) = 0$, where the length of $y$ is equal to $p(|x|)$ for some polynomial $p$. Let $q$ be a polynomial, where $e^{-q(|x|)}$ is the desired error probability. Let $k = 48q(|x|)$.
 
 Here is how we determine the value $f(x)$ with error probability $e^{-q(|x|)}$. Choose $k$ strings $y_1,y_2,...,y_k$ randomly, then return $h(\langle x, y_1y_2\cdots y_k\rangle) = \majority(g)(\langle \langle x, y_1 \rangle, \langle x, y_2 \rangle, \ldots, \langle x, y_k \rangle \rangle)$. Notice that $h$ can be easily reduced to $\majority(g)$ in polynomial time, and is therefore in $C$.
 Let $X_i$ be an indicator variable which is $1$ if $g(\langle x,y_i\rangle)$ agrees with $f(x)$. We have that the $X_i$ are independent Bernoulli random variables with $\pr\left[X_i = 1\right] > \frac{2}{3}$.  Then by the Chernoff bound,
@@ -194,7 +194,14 @@ We can do this for any polynomial $q$, so $f \in \strongbp \cdot C$. Hence, $\bp
 
 Thus, in order to prove Theorem \ref{amplify}, we just need to show that any $\{\Sigma,\Pi,\bp,\parity\}$-constructible complexity class is closed under majority reductions. In order to show that these are closed under majority reductions, we will need the help of another property:
 \begin{definition}\label{defintersection}
-We say that a class $C$ is \emph{closed under intersection} if for any language $L \in C$, the language $\intersection(L) = \{(x_1,...,x_k) : k\in\mathbb{N}, x_i \in L_i ~ \forall i\}$ is in $C$.
+We say that a complexity class $C$ is \emph{closed under intersection} if for any partial function $f \in C$, the partial function $\intersect(f)$ defined by
+$$\intersect(f)(\langle x_1, \ldots, x_k\rangle) = 
+\begin{cases}1 & \text{ if $f(x_i) = 1$ for all $i$} \\
+0 & \text{ if there exists some $i$ for which $f(x_i) = 0$}\\
+\x & \text{ otherwise}
+\end{cases}$$
+is in $C$.
+%We say that a class $C$ is \emph{closed under intersection} if for any language $L \in C$, the language $\intersection(L) = \{(x_1,...,x_k) : k\in\mathbb{N}, x_i \in L_i ~ \forall i\}$ is in $C$.
 \end{definition}
 We will demonstrate that all $\{\Sigma, \Pi, \bp, \parity\}$-constructible complexity classes are closed under intersection and under majority reductions. To do this, we will use induction on the number of operators in $C$. Clearly $\p$ is closed under intersection and majority reductions. Thus, the result follows from the following two lemmas:
 
@@ -210,7 +217,9 @@ We begin with the proof of Lemma \ref{intersectionlemma}
 \begin{proof}[Proof of Lemma \ref{intersectionlemma}]
 \begin{enumerate}
 \item[]
-\item[(i)] Suppose $L \in \Sigma\cdot C$. Then there exists a language $M\in C$ and a polynomial $p$ such that $x \in L$ if and only if there exists some $y$ with $|y| = p(|x|)$ such that $(x, y)\in M$. Now, we want to show that $\intersect(L) \in \Sigma \cdot C$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if all $x_i$ are in $L$ using the power of $\Sigma \cdot C$. To do this, we just guess a $k$-tuple $(y_1,y_2,...,y_k)$, and then check if $M$ accepts $(x_1, y_1)$, $(x_2, y_2)$, ..., and $(x_k, y_k)$. This is equivalent to checking that $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \intersect(M)$, and by assumption, $\intersect(M)$ is in $C$ since $M$ is in $C$.
+\item[(i)] Suppose $f$ is a partial function in $\Sigma\cdot C$. Then there exists a partial function $g\in C$ and a polynomial $p$ such that $f(x) = 1$ if there exists some $y$ with $|y| = p(|x|)$ such that $g(\langle x,y\rangle) = 1$, and $f(x) = 0$ if for all $y$ with $|y| = p(|x|)$ we have $g(\langle x, y\rangle) = 0$. Now, we want to show that $\intersect(f) \in \Sigma \cdot C$. Now, $\intersect(f)(\langle x_1,...,x_k\rangle) = 1$ if and only if there exist $y_1,...,y_k$ such that $g(\langle x_i, y_i\rangle) = 1$ for all $i$, which is equivalent to saying that $\intersect(g)(\langle \langle x_1,y_1\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$. Similarly, $\intersect(f)(\langle x_1,...,x_k\rangle) = 0$ if and only if for all $y_1,...,y_k$, we have $\intersect(g)(\langle \langle x_1,y_1\rangle,...,\langle x_k,y_k\rangle\rangle) = 0$. Thus, $\intersect(f) \in \Sigma \cdot C$.
+
+%To do this, we just guess a $k$-tuple $(y_1,y_2,...,y_k)$, and then check if $M$ accepts $(x_1, y_1)$, $(x_2, y_2)$, ..., and $(x_k, y_k)$. This is equivalent to checking that $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \intersect(M)$, and by assumption, $\intersect(M)$ is in $C$ since $M$ is in $C$.
 
 \item[(ii)] The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
 
@@ -219,18 +228,19 @@ We begin with the proof of Lemma \ref{intersectionlemma}
 %$\displaystyle \pr_y [M(x,y)\text{ accepts}] > $
 %\end{center}
 
-\item[(iii)] Now we consider $\bp \cdot C$. Let $L$ be a language in $\bp \cdot C$. Then, there is some language $M \in C$ and a polynomial $p$ such that $\pr_y[(x,y) \in M] > 2/3$ if $x\in L$ and $\pr_y[(x,y) \not \in M] < 1/3$ if $x\not\in L$, where $y$ is chosen as a random string of length $p(|x|)$.
+\item[(iii)] Now we consider $\bp \cdot C$. Let $f$ be a partial function in $\bp \cdot C$. Then, there is some partial function $g \in C$ and a polynomial $p$ such that $\pr_y[f(x) = g(\langle x,y\rangle)] > 2/3$ if $f(x) \ne \x$, where $y$ is chosen as a random string of length $p(|x|)$.
 
-By assumption, $C$ is closed under majority reductions and under intersection. Thus,\linebreak $\intersect(\majority(M)) \in C$. We want to show that $\intersect(L) \in \bp\cdot C$. For any $(x_1,x_2,...,x_k)$, we randomly choose random strings $y_{i,j}$ of length $p(|x_i|)$, for $1\le i\le k$ and $j\le 1\le \ell$, where $\ell = \lceil -48\ln(1 - (2/3)^{1/k}) \rceil$. Then, we check if $(X_1, X_2, ..., X_k)$
-is in $\intersect(\majority(M))$, where
+By assumption, $C$ is closed under majority reductions and under intersection. Thus,\linebreak $\intersect(\majority(g)) \in C$. We want to show that $\intersect(f) \in \bp\cdot C$. For any $(x_1,x_2,...,x_k)$, we randomly choose random strings $y_{i,j}$ of length $p(|x_i|)$, for $1\le i\le k$ and $j\le 1\le \ell$, where $\ell = \lceil -48\ln(1 - (2/3)^{1/k}) \rceil$. Then, we check $\intersect(\majority(g))(\langle X_1, X_2, ..., X_k\rangle)$, where
 \begin{center}
-$X_i = ((x_i,y_{i,1}),(x_{i},y_{i,2}),...,(x_{i},y_{i,\ell}))$.
+$X_i = \langle\langle x_i,y_{i,1}\rangle,\langle x_{i},y_{i,2}\rangle,...,\langle x_{i},y_{i,\ell}\rangle\rangle$.
 \end{center}
-By the Chernoff bound, as in the proof of Lemma \ref{majorityimpliesamplify}, we have that $X_i$ is in $\majority(M)$ with probability greater than $e^{-(1/4)^2 (2\ell/3)/2} \ge 1 - (2/3)^{1/k}$ if $x_i \in L$. If $x_i \in L$ for all $i$, then the probability that there exists some $i$ for which $X_i$ is not in $\majority(M)$ is therefore greater than $((2/3)^{1/k})^k = 2/3$. If there is some $i$ for which $x_i \not\in L$, then there is a $1 - (2/3)^{1/k} \ge 2/3$ chance that $X_i \not \in \majority(M)$.
+By the Chernoff bound, as in the proof of Lemma \ref{majorityimpliesamplify}, we have that $\majority(M)(X_i) = f(x_i)$ with probability greater than $e^{-(1/4)^2 (2\ell/3)/2} \ge 1 - (2/3)^{1/k}$. If $f(x_i) = 1$ for all $i$, then the probability that there exists some $i$ for which $\majority(g)(X_i) \ne 1$ is therefore greater than $((2/3)^{1/k})^k = 2/3$. If there is some $i$ for which $f(x_i) = 0$, then there is a $1 - (2/3)^{1/k} \ge 2/3$ chance that $\majority(g)(X_i) = 0$.
 
-Thus, we get that $(X_1,...,X_k)\in\intersect(\majority(M))$ with probability greater than $2/3$ if $(x_1,x_2,...,x_k)\in L$, and $(X_1,...,X_k)\not\in\intersect(\majority(M))$ with probability greater than $2/3$ if $(x_1,x_2,...,x_k)\not\in L$. Therefore, $\intersect(L) \in \bp \cdot C$, so $\bp \cdot C$ is closed under intersection.
+Thus, we get that $\intersect(\majority(g))(\langle X_1,...,X_k\rangle) = \intersect(f)(\langle x_1,...,x_k\rangle)$ with probability at least $2/3$. Therefore, since $\intersect(\majority(g)) \in C$, we get that $\intersect(f) \in \bp \cdot C$, so $\bp \cdot C$ is closed under intersection.
 
-\item[(iv)] Finally, we consider $\parity \cdot C$. If $L \in \parity \cdot C$, then there is a language $M \in C$ and a polynomial $p$ such that $x\in L$ if and only if an odd number of $(x,y)$ are in $M$ where $|y| = p(|x|)$. We want to show that $\intersect(L)$ is in $\parity \cdot C$. Say we have $x_1,x_2,...,x_k$ and we need to verify that all of them are in $L$. Then, guess $y_1,y_2,...,y_k$ and see if $((x_1,y_1),(x_2,y_2),...,(x_k,y_k))$ is in $\intersect(M)$. Accept if there are an odd number of sequences $y_1,y_2,...,y_k$ for which this accepts. To see why this works, let $\# x_i$ be the number of $y_i$ for which $(x_i, y_i) \in M$. Then, the number of sequences $y_1,y_2,...,y_k$ which will accept is equal to $(\# x_1)(\# x_2)...(\# x_k)$ which is odd if and only if $\# x_i$ is odd for all $i$.
+%Thus, we get that $(X_1,...,X_k)\in\intersect(\majority(M))$ with probability greater than $2/3$ if $(x_1,x_2,...,x_k)\in L$, and $(X_1,...,X_k)\not\in\intersect(\majority(M))$ with probability greater than $2/3$ if $(x_1,x_2,...,x_k)\not\in L$. Therefore, $\intersect(L) \in \bp \cdot C$, so $\bp \cdot C$ is closed under intersection.
+
+\item[(iv)] Finally, we consider $\parity \cdot C$. If $f \in \parity \cdot C$, then there is a partial function $g \in C$ and a polynomial $p$ such that $f(x) = 1$ if and only if an odd number of $y \in \{0,1\}^{p(|x|)}$ and are such that $g(\langle x, y\rangle) = 1$, and $f(x) = 0$ if and only if there are an even number (but if $g(\langle x,y\rangle) = \x$ for any $y$, then $f(x) = \x$). We want to show that $\intersect(f)$ is in $\parity \cdot C$. Say we have $x_1,x_2,...,x_k$ and we need to verify that all of them are in $f$. Then, accept if there are an odd number of sequences $y_1,y_2,...,y_k$ such that $\intersect(g)(\langle\langle x_1,y_1\rangle,\langle x_2,y_2\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$. To see why this works, let $\# x_i$ be the number of $y_i$ for which $g(\langle x_i,y_i\rangle) = 1$. Then, the number of sequences $y_1,y_2,...,y_k$ for which $\intersect(g)(\langle\langle x_1,y_1\rangle,\langle x_2,y_2\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$ is equal to $(\# x_1)(\# x_2)...(\# x_k)$ which is odd if and only if $\# x_i$ is odd for all $i$.
 \end{enumerate}
 \end{proof}
 
