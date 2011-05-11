@@ -90,28 +90,55 @@ To see this, consider simulating $T$ and cutting it off after $p(|x|)$ steps, wh
 
 \subsection{Operators}
 
-In this paper we focus on four operators on complexity classes: $\Sigma, \Pi, \bp, \parity$ which are defined in analogy to the relationship between $\p$ and the classes $\np$, $\conp$, $\bpp$, and $\parity\p$. For all of these definitions, we let $\langle x, y\rangle$ denote a single string of size $O(|x| + |y|)$ that represents the pair $(x,y)$.
+In this paper we focus on four operators on complexity classes: $\Sigma, \Pi, \bp, \parity$ which are defined in analogy to the relationship between $\p$ and the classes $\np$, $\conp$, $\bpp$, and $\parity\p$. For all of these definitions, we let $\langle x, y\rangle$ denote a single string of size $O(|x| + |y|)$ that represents the pair $(x,y)$. Additionally, we define a strengthened version of the $\bp$ operator, $\strongbp$, which guarantees amplification style results. We will show in section \ref{amplifysection} that for most of the classes we consider, these operators give the same result.
 
 \begin{definition}\label{opsigma}
 For a complexity class $C$, we define the class $\Sigma \cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
 \begin{itemize}
-\item $f(x) = 1$ if and only if there exists a $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x,y \rangle) = 1$.
-\item $f(x) = 0$ if and only if for every $y \in \{0,1\}^{p(|x|)}$, we have $g(\langle x, y\rangle) = 0$.
-\item $f(x) = \x$ otherwise.
+\item If $f(x) = 1$ then there exists a $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x,y \rangle) = 1$.
+\item If $f(x) = 0$ then for every $y \in \{0,1\}^{p(|x|)}$, we have $g(\langle x, y\rangle) = 0$.
 \end{itemize}
 \end{definition}
 
 \begin{definition}\label{oppi}
 For a complexity class $C$, we define the class $\Pi \cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
 \begin{itemize}
-\item $f(x) = 1$ if and only if for every $y \in \{0,1\}^{p(|x|)}$, we have $g(\langle x,y \rangle) = 1$.
-\item $f(x) = 0$ if and only if there exists $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y\rangle) = 0$.
-\item $f(x) = \x$ otherwise.
+\item If $f(x) = 1$ then for every $y \in \{0,1\}^{p(|x|)}$, we have $g(\langle x,y \rangle) = 1$.
+\item If $f(x) = 0$ then there exists $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y\rangle) = 0$.
 \end{itemize}
 \end{definition}
 
+\begin{definition}\label{opbp}
+For a complexity class $C$, we define the class $\bp\cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
+\begin{itemize}
+\item If $f(x) = 1$ then the number of $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y\rangle) = 1$ is at least $\frac{2}{3}\cdot 2^{p(|x|)}$.
+\item If $f(x) = 0$ then the number of $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y\rangle) = 0$ is at least $\frac{2}{3}\cdot 2^{p(|x|)}$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}\label{opstrongbp}
+For a complexity class $C$, we define the class $\strongbp\cdot C$ as the set of partial functions $f$ such that for every polynomial $q(n)$, there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
+\begin{itemize}
+\item If $f(x) = 1$ then the number of $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y \rangle) = 1$ is at least \linebreak$\left(1 - \frac{1}{2^{q(|x|)}}\right)\cdot 2^{p(|x|)}$.
+\item If $f(x) = 0$ then the number of $y \in \{0,1\}^{p(|x|)}$ such that $g(\langle x, y \rangle) = 0$ is at least \linebreak$\left(1 - \frac{1}{2^{q(|x|)}}\right)\cdot 2^{p(|x|)}$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}\label{opparity}
+For a complexity class $C$, we define the class $\parity\cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
+\begin{itemize}
+\item If $f(x) = 1$ then for all $y \in \{0,1\}^{p(|x|)}$, $g(\langle x, y\rangle) \neq \x$ and for an odd number of such $y$, $g(\langle x,y\rangle) = 1$.
+\item If $f(x) = 0$ then for all $y \in \{0,1\}^{p(|x|)}$, $g(\langle x, y\rangle) \neq \x$ and for an even number of such $y$, $g(\langle x,y\rangle) = 1$.
+\end{itemize}
+\end{definition}
+
+In this paper, we will want to concern ourselves mainly with $\p$ and classes that result from applying a sequence of the above operators to it. We will use the following terminology throughout.
+\begin{definition}\label{constructible}
+For a set $Q$ of operators, we say a complexity class $C$ is \emph{$Q$-constructible} if it is of the form $Q_k \cdot Q_{k-1} \cdots Q_{2} \cdot Q_1 \cdot \p$ for some $k$ where $Q_i \in Q$ for all $i \in \{1,\ldots,k\}$.
+\end{definition}
+
 %\section{Closed Under Intersection}
-\section{Amplification of $\bp$ to $\strongbp$}
+\section{Amplification of $\bp$ to $\strongbp$\label{amplifysection}}
 
 Consider the amplification of the probabilities in the $\bp$ operator. It is well known that\linebreak $\bpp = \bp \cdot \p$ can be amplified; that is, we can replace the error probability of $1/3$ with probabilities exponentially small in the input size. Thus we can write $\bp \cdot \p = \strongbp \cdot \p$. We would like to compare $\bp \cdot C$ to $\strongbp \cdot C$ for more general complexity classes $C$.
 
@@ -121,9 +148,9 @@ The aim of this section is to prove the following amplification result:
 Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then \emph{$\bp \cdot C = \strongbp \cdot C$}.
 \end{theorem}
 Initially, this may seem to be obviously true for the same reasons that $\bp \cdot \p = \strongbp \cdot \bp$. The problem is that amplification requires running some machine which accepts a language in $C$ more than once. This requires the structure of $C$ to allow for such repetitions. This brings us to the concept of majority reductions.
-\begin{definition}\label{defmajority}\emph{
+\begin{definition}\label{defmajority}
 We say that a complexity class $C$ is \emph{closed under majority reductions} if for any language $L$, the language $\majority(L) = \{(x_1,...,x_k) : k \in \mathbb{N}, |\{x_i : x_i \in L\}| \ge k/2\}$ is in $C$.
-}\end{definition}
+\end{definition}
 Now, we see that majority reductions are exactly what we want for amplification:
 \begin{lemma}\label{majorityimpliesamplify}
 If $C$ is a complexity class which is closed under majority reductions, then\linebreak \emph{$\bp \cdot C = \strongbp \cdot C$.}
@@ -135,7 +162,8 @@ Here is how we determine if a string $x$ is in $L$ with error probability $e^{-q
 \begin{align*}
 \pr\left[\sum X_i < k/2\right] &= \pr\left[\sum X_i < (1 - 1/4)(2k/3)\right]\\
 &< e^{-(1/4)^2 (2k/3) / 2}\\
-&= e^{-q(|x|)}
+&= e^{-q(|x|)} \\
+&< 2^{-q(|x|)}
 \end{align*}
 We can do this for any polynomial $q$, so $L \in \strongbp \cdot C$. Hence, $\bp \cdot C = \strongbp \cdot C$.
 \end{proof}
