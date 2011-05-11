@@ -142,7 +142,7 @@ For a set $Q$ of operators, we say a complexity class $C$ is \emph{$Q$-construct
 
 Consider the amplification of the probabilities in the $\bp$ operator. It is well known that\linebreak $\bpp = \bp \cdot \p$ can be amplified; that is, we can replace the error probability of $1/3$ with probabilities exponentially small in the input size. Thus we can write $\bp \cdot \p = \strongbp \cdot \p$. We would like to compare $\bp \cdot C$ to $\strongbp \cdot C$ for more general complexity classes $C$.
 
-The aim of this section is to prove the following amplification result:
+The aim of this section and the next is to prove the following amplification result:
 
 \begin{theorem}\label{amplify}
 Let $C$ be a \emph{$\{\Sigma,\Pi,\bp,\parity\}$}-constructible complexity class. Then \emph{$\bp \cdot C = \strongbp \cdot C$}.
@@ -186,7 +186,7 @@ We begin with the proof of Lemma \ref{intersectionlemma}
 \begin{proof}[Proof of Lemma \ref{intersectionlemma}]
 \begin{enumerate}
 \item[]
-\item[(i)] Suppose $L \in \Sigma\cdot C$. Then there exists a language $M\in C$ and a polynomial $p$ such that $x \in L$ if and only if there exists some $y$ with $|y| = p(|x|)$ such that $(x, y)\in M$. Now, we want to construct a $\Sigma \cdot C$ machine for $\intersect(L)$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if all $x_i$ are in $L$. To do this, we just guess a $k$-tuple $(y_1,y_2,...,y_k)$, and then check if $M$ accepts $(x_1, y_1)$, $(x_2, y_2)$, ..., and $(x_k, y_k)$. This is equivalent to checking that $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \intersect(M)$, and by assumption, $\intersect(M)$ is in $C$ since $M$ is in $C$.
+\item[(i)] Suppose $L \in \Sigma\cdot C$. Then there exists a language $M\in C$ and a polynomial $p$ such that $x \in L$ if and only if there exists some $y$ with $|y| = p(|x|)$ such that $(x, y)\in M$. Now, we want to show that $\intersect(L) \in \Sigma \cdot C$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if all $x_i$ are in $L$ using the power of $\Sigma \cdot C$. To do this, we just guess a $k$-tuple $(y_1,y_2,...,y_k)$, and then check if $M$ accepts $(x_1, y_1)$, $(x_2, y_2)$, ..., and $(x_k, y_k)$. This is equivalent to checking that $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \intersect(M)$, and by assumption, $\intersect(M)$ is in $C$ since $M$ is in $C$.
 
 \item[(ii)] The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
 
@@ -210,19 +210,27 @@ Thus, we get that $(X_1,...,X_k)\in\intersect(\majority(M))$ with probability gr
 \end{enumerate}
 \end{proof}
 
-\begin{proof}[Proof of Lemma \ref{amplifymainlemma}-i,ii,iii]
+\begin{proof}[Proof of Lemma \ref{amplifymainlemma} (i,ii,iii)]
 
  The proofs of (i), (ii), and (iii) are similar to the proofs in Lemma \ref{intersectionlemma}. Part (iv) is the most difficult, and will not be finished until Section \ref{oracle}.
 \begin{enumerate}
-\item[(i)]
-\item[(ii)]
-\item[(iii)]
+\item[(i)] Suppose $L \in \Sigma \cdot C$. Then there exists a language $M \in C$ and a polynomial $p$ such that $x\in L$ if and only if there exists some $y$ with $|y| = p(x)$ such that $(x,y) \in M$. Now, we want to show that $\intersect(L) \in \Sigma \cdot C$; that is, given a $k$-tuple $(x_1,x_2,...,x_k)$, we want to determine if at least half of the $x_i$ are in $L$ using the power of $\Sigma \cdot C$. To do this, just guess a $k$-tuple $(y_1,y_2,...,y_k)$ with $|y_i| = p(|x_i)|$ and then check if $((x_1,y_1),(x_2,y_2),...,(x_k,y_k)) \in \majority(M)$. Since $C$ is closed under majority reductions, $\majority(M) \in C$. There exists such $y_i$'s if and only if a majority of the $x_i$ are in $L$.
+\item[(ii)] The proof for $\Pi \cdot C$ is analogous to the proof for $\Sigma \cdot C$.
+\item[(iii)] Now we consider $\bp \cdot C$. Let $L$ be a language in $\bp \cdot C$. Then there exists a language $M \in C$ and a polynomial $p$ such that if $y$ is chosen as a random string with $|y| = p(|x|)$, then
+\begin{center}
+$\pr[M\text{ accepts }(x,y)] > 2/3$ if $L$ accepts $x$,\\
+$\pr[M\text{ rejects }(x,y)] > 2/3$ if $L$ rejects $x$.
+\end{center}
+For any $(x_1,x_2,...,x_k)$, we randomly choose random strings $y_{i,j}$ of length $p(|x_i|)$, for $1\le i\le k$ and $j\le 1\le \ell$, where $\ell = \lceil -48\ln(1 - (2/3)^{1/k}) \rceil$.
+Now, $\majority(\majority(M)) \in C$, since $C$ is closed under majority reductions. By the Chernoff bound, (as in Lemma \ref{intersectionlemma}) there is at least a $1-(2/3)^{1/k}$ probability that some $X_i = ((x_i,y_{i,1}), (x_i, y_{i,2}),...,(x_i, x_{i,\ell}))$ is ``correct," by which we mean that $\majority(M)$ accepts $X_i$ if $L$ accepts $x_i$, and $\majority(M)$ rejects $X_i$ if $L$ rejects $x_i$.
+
+Thus, there is at least a $2/3$ chance that $\majority(\majority(M))$ accepts $(X_1,X_2,...,X_k)$ if $\majority(L)$ accepts $(x_1,x_2,...,x_k)$, and there is at least a $2/3$ chance that $\majority(\majority(M))$ rejects $(X_1,X_2,...,X_k)$ if $\majority(L)$ rejects $(x_1,x_2,...,x_k)$. Therefore, $\majority(L) \in \bp \cdot C$.
 \end{enumerate}
 \end{proof}
 
 \section{An Oracle Result}\label{oracle}
 
-To complete the proof of Lemma \ref{amplifymainlemma} (b-iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
+To complete the proof of Lemma \ref{amplifymainlemma} (iv), we use the following generalization of a result in \cite{Toda}, which shows that $\parity \cdot (\p ^{\parity\cdot\p}) = \parity\cdot\p$, a fact which is used to show that $\parity \cdot \p$ is closed under majority reductions.
 
 \begin{theorem}\label{oracleparityc}
 Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
