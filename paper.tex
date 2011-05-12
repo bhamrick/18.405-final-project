@@ -367,6 +367,19 @@ Thus, $\majority(\overline{f}) \in \p^{\parity \cdot C}$. Thus, we can apply The
 
 \section{The non-well-structured case}\label{notwellstruct}
 
+Theorem \ref{amplify} tells us that for any well-structured class $C$, we have $\bp\cdot C = \strongbp\cdot C$. In this section we will extend it to the following generalization.
+
+\begin{theorem}\label{fullamplify}
+If $C$ is a $\{\Sigma,\Pi,\bp,\parity\}$-constructible complexity class, then $\bp\cdot C = \strongbp\cdot C$.
+\end{theorem}
+\begin{proof}
+If $C$ is well-structured, then Theorem \ref{amplify} gives us the result. Now suppose that $C$ is not well-structured. Then $C$ is of the form $Q_k\cdot Q_{k-1}\cdots Q_1\cdot \p$, where for some $i,j$ with $i < j$ we have $Q_i = \bp$ and $Q_j = \parity$. We claim that $\strongbp \cdot C = \strongbp \cdot \parity \cdot \p$. We can then easily see that $\strongbp \cdot \parity \cdot \p \subseteq \strongbp \cdot C$, as we can ignore the other quantifiers easily. By a slight generalization of a result in \cite{Toda}, we have that a $\Sigma$ or $\Pi$ operator can be simulated by the combination of operators $\strongbp \cdot \parity$. As a result, we see that $\strongbp \cdot C \subseteq \strongbp \cdot Q_k \cdots Q_1 \cdot \p$, where at least one of the $Q_i$ is $\parity$. and all of the $Q_i$ are either $\strongbp, \bp$, or $\parity$.
+
+Now consider the smallest $i$ such that $Q_i = \bp$ or $Q_i = \strongbp$. Then all the ones to the right are $\parity$, so we can collapse them down to one $\parity$ operator by Lemma \ref{collapse} and the class that $Q_i$ operates on is well-structured. As a result, we may replace $Q_i$ with $\strongbp$ by Theorem \ref{amplify}. If $Q_{i+1} = \parity$, then by Lemma \ref{interchange}, we can interchange $Q_i$ and $Q_{i+1}$ and obtain a superset of our original class. We continue doing this until $Q_{i+1} = \bp$ or $Q_{i+1} = \strongbp$. If $Q_{i+1} = \strongbp$, we can collapse the two by Lemma \ref{collapse}. If $Q_{i+1} = \bp$, then we note that at this point we have moved the only $\strongbp$ operator to the left of all the $\parity$ operators, so we can replace it by a $\bp$ and this class is well-structured. Therefore, by Theorem \ref{amplify}, we can replace $Q_{i+1}$ and $Q_i$ by $\strongbp$, and then by Lemma \ref{collapse}, we may collapse them into one. Continuing in this way, we eventually collapse the entire string of operators into just two, and obtain the result that $\strongbp \cdot C \subseteq \strongbp \cdot \parity \cdot \p$.
+
+Now the result is simple, as $\parity \cdot \p$ is well-structured, so by Theorem \ref{amplify}, we have $\strongbp\cdot\parity\cdot\p = \bp\cdot\parity\cdot\p \subseteq \bp\cdot C$. Therefore we have shown that $\bp \cdot C \subseteq \strongbp \cdot C$, and clearly $\strongbp \cdot C \subseteq \bp \cdot C$, so $\bp\cdot C = \strongbp \cdot C$, as desired.
+\end{proof}
+
 \section{Conclusion}
 
 \pagebreak
