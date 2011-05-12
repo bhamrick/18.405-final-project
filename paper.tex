@@ -49,6 +49,10 @@
 
 \section{Introduction}
 
+Complexity theory is, at its heart, the study of the difficulty of various classes of problems. In order to have a tractible proof setting, complexity theorists usually define a problem by a set of strings which should be accepted, and all others should be rejected. However, many natural problems do not fall into the class of languages, but rather the class of promise problems. A promise problem is usually described as a problem where there is a set of strings that you must accept, a set of strings that you must reject, and a set of strings where it does not matter.
+
+In this paper we work to reproduce several classical complexity theoretic results explicitly in the context of promise problems, which we represent as partial functions. We introduce several operators, based on their analogues for languages and use them to establish analogues of several standard results.
+
 \section{Definitions}
 
 \subsection{Partial Functions}
@@ -90,7 +94,7 @@ To see this, consider simulating $T$ and cutting it off after $p(|x|)$ steps, wh
 
 \subsection{Operators}
 
-In this paper we focus on four operators on complexity classes: $\Sigma, \Pi, \bp, \parity$ which are defined in analogy to the relationship between $\p$ and the classes $\np$, $\conp$, $\bpp$, and $\parity\p$. For all of these definitions, we let $\langle x, y\rangle$ denote a single string of size $O(|x| + |y|)$ that represents the pair $(x,y)$. Additionally, we define a strengthened version of the $\bp$ operator, $\strongbp$, which guarantees amplification style results. We will show in section \ref{amplifysection} that for most of the classes we consider, these operators give the same result.
+In this paper we focus on four operators on complexity classes: $\Sigma, \Pi, \bp, \parity$ which are defined in analogy to the relationship between $\p$ and the classes $\np$, $\conp$, $\bpp$, and $\parity\p$ and based on the operators introduced in \cite{Schoning} and \cite{Schoning2}. For all of these definitions, we let $\langle x, y\rangle$ denote a single string of size $O(|x| + |y|)$ that represents the pair $(x,y)$. Additionally, we define a strengthened version of the $\bp$ operator, $\strongbp$, which guarantees amplification style results. We will show in section \ref{amplifysection} that for most of the classes we consider, these operators give the same result.
 
 \begin{definition}\label{opsigma}
 For a complexity class $C$, we define the class $\Sigma \cdot C$ as the set of partial functions $f$ such that there exists a partial function $g \in C$ and a polynomial $p(n)$ such that
