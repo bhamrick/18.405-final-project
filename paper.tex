@@ -36,6 +36,7 @@
 \newcommand{\intersection}{\textsf{intersect}}
 \newcommand{\intersect}{\textsf{intersect}}
 \newcommand{\majority}{\textsf{majority}}
+\newcommand{\ma}{\textsf{MA}}
 
 \begin{document}
 
@@ -51,7 +52,7 @@
 
 Complexity theory is, at its heart, the study of the difficulty of various classes of problems. In order to have a tractible proof setting, complexity theorists usually define a problem by a set of strings which should be accepted, and all others should be rejected. However, many natural problems do not fall into the class of languages, but rather the class of promise problems. A promise problem is usually described as a problem where there is a set of strings that you must accept, a set of strings that you must reject, and a set of strings where it does not matter.
 
-In this paper we work to reproduce several classical complexity theoretic results explicitly in the context of promise problems, which we represent as partial functions. We introduce several operators, based on their analogues for languages and use them to establish analogues of several standard results.
+In this paper we work to reproduce several classical complexity theoretic results explicitly in the context of promise problems, which we represent as partial functions. We introduce several operators, based on their analogues for languages and use them to establish analogues of several standard results. In particular, we will prove that probabilities can be amplified, not just in $\bpp$, but in more general classes which contain randomness.
 
 \section{Definitions}
 
@@ -138,7 +139,7 @@ For a complexity class $C$, we define the class $\parity\cdot C$ as the set of p
 
 In this paper, we will want to concern ourselves mainly with $\p$ and classes that result from applying a sequence of the above operators to it. We will use the following terminology throughout.
 \begin{definition}\label{constructible}
-For a set $Q$ of operators, we say a complexity class $C$ is \emph{$Q$-constructible} if it is of the form $Q_k \cdot Q_{k-1} \cdots Q_{2} \cdot Q_1 \cdot \p$ for some $k$ where $Q_i \in Q$ for all $i \in \{1,\ldots,k\}$.
+For a set $Q$ of operators, we say a complexity class $C$ is \emph{$Q$-constructible} if it is of the form $\op_k \cdot\op_{k-1} \cdots \op_{2} \cdot \op_1 \cdot \p$ for some $k$ where $\op_i \in Q$ for all $i \in \{1,\ldots,k\}$.
 \end{definition}
 
 \section{Polynomial Time Reductions}
@@ -323,12 +324,12 @@ To show that $f$ lies in $\parity\cdot C$, the basic idea is to ``guess" the ans
 %\end{itemize}
 There exists a polynomial $p$ such that $T$ always makes at most $p(|x|)$ oracle calls. There is a polynomial $q(|x|)$ which bounds the input length of any query made to an oracle.
 
-Each oracle call queries some input to check if it is $g$. There is a function $h \in C$ and a polynomial $r$ such that $g(x) = 1$ if and only if $h(\langle x,y\rangle) = 1$ for an odd number of $y\in\{0,1\}^{r(|x|)}$, and $g(x) = 0$ otherwise. Thus, $f \in \parity \cdot C$.
+The $i^\text{th}$ oracle call queries some input $x_i$ to check if $g(x_i) = 1$. There is a function $h \in C$ and a polynomial $r$ such that for any query string $x_i$, we have $g(x_i) = 1$ if and only if $h(\langle x_i,y\rangle) = 1$ for an odd number of $y\in\{0,1\}^{r(|x|)}$, and $g(x_i) = 0$ otherwise. Thus, $f \in \parity \cdot C$.
 
 To show that $f$ is in $\parity \cdot C$, we guess the following bits for a given input $x$:
 \begin{itemize}
 \item Bits $a_1,a_2,...,a_{p(|x|)}$. Intuitively, these will be the answers to the oracle calls made by $T$.
-\item Bits $b_1,b_2,...,b_{p(|x|)}$. The purpose of these will become clear later.
+\item Bits $b_1,b_2,...,b_{p(|x|)}$. The purpose of these will become clear later; they will be necessary for fixing the parity of some numbers.
 \item Strings $y_1,y_2,...,y_{p(|x|)}$, each of length $r(q(|x|))$. These are the strings that an oracle call guesses.
 \end{itemize}
 After guessing, we do the following polynomial time reduction to $\intersect(h)$. For an input $x$, simulate $T$ using the bits $a_1,a_2,...,a_{p(|x|)}$ as the answers to the oracle calls (taking $1$ to mean that the oracle call accepted, and $0$ to mean that the oracle call rejected). If $T$ would reject, then reject.
@@ -338,18 +339,17 @@ Also find the strings $x_1,x_2,...,x_{p(|x|)}$ which are the inputs that $T$ wou
 \item $b_i = 0$, and both $a_i = 0$ and $y_i = 0^{r(q(|x|))}$, or
 \item $b_i = 1$ and $h(x_i, y_i)$
 \end{itemize}
-Reject if any $(a_i, b_i, y_i)$ is not good. To determine if they are all good, we will have to check some pairs $(x_i, y_i)$ to see if $\overline{h}(x_i,y_i) = 1$. We can do this with a call to $\intersect(h)$.
+Reject if any $(a_i, b_i, y_i)$ is not good. To determine if they are all good, we will have to check some pairs $(x_i, y_i)$ to see if $h(x_i,y_i) = 1$. We can do this with a call to $\intersect(h)$.
 
-(Technical note: it is possible that some bits out of the $a_i$, $b_i$, and $y_i$ are not used. It is possible that not all $p(x)$ oracle calls will be made, or that not all $r(q(|x|))$ bits of a $y_i$ will be used, if $|x_i| < q(|x|)$. Thus, we also say that $(a_i, b_i, y_i)$ is not good if any unused bits are nonzero.)
+(Technical note: it is possible that some bits out of the $a_i$, $b_i$, and $y_i$ are not used. It is possible that not all $p(x)$ oracle calls will be made, or that not all $r(q(|x|))$ bits of a $y_i$ will be used, if $|x_i| < q(|x|)$. Thus, we require that all unused bits be $0$ for $(a_i, b_i, y_i)$ to be good. In that case that there is no $i^\text{th}$ oracle call, the only good triple $(a_i, b_i, y_i)$ is the all zeroes triple.)
 
 Why does this give us what we want? We want to show that this will accept for an odd number of choices of the $a_i$, $b_i$, and $y_i$ if and only if $f(x) = 1$. Let $\# (a_1,...,a_{p(|x|)})$ be the number of ways to choose the $b_i$, and $y_i$ such that all triples $(a_i,b_i,y_i)$ are good. Then the total number of accepting paths is
 \begin{center}$\displaystyle \sum_{a_1,...,a_{p(|x|)}\text{ such that $T$ accepts}}  \#(a_1,...,a_{p(|x|)})$\end{center}
-We claim that $ \#(a_1,...,a_{p(|x|)})$ is odd if and only if $a_1,a_2,...,a_{p(|x|)}$ are the correct answers to the oracle calls. This follows from the way we chose to decide if $(a_i, b_i, y_i)$ is good. If $a_1,a_2,...,a_{p(|x|)}$ are the correct answers to the oracle calls, then for each $i$, there are an odd number of $(b_i,y_i)$ such that $(a_i, b_i, y_i)$ is good. If $a_i = 1$, all good triples will have $b_i = 1$, so the parity is determined by the number of $y_i$ for which $P$ accepts $(x_i, y_i)$. But if $a_i = 1$, then this should be odd. If $a_i = 0$, then the number of $y_i$ for which $P$ accepts $(x_i, y_i)$ is even. However, we get one more good pair, namely $(0,0,0)$.
+We claim that $ \#(a_1,...,a_{p(|x|)})$ is odd if and only if $a_1,a_2,...,a_{p(|x|)}$ are the correct answers to the oracle calls. This follows from the way we chose to decide if $(a_i, b_i, y_i)$ is good. If $a_1,a_2,...,a_{p(|x|)}$ are the correct answers to the oracle calls, then for each $i$, there are an odd number of $(b_i,y_i)$ such that $(a_i, b_i, y_i)$ is good. If $a_i = 1$, all good triples will have $b_i = 1$, so the parity is determined by the number of $y_i$ for which $h(x_i, y_i)=1$. But since $a_i = 1$, then this should be odd. In the other case, if $a_i = 0$, then the number of $y_i$ for which $h(x_i, y_i)=1$ is even. However, we get one more good pair, namely $(0,0,0)$.
 
 On the other hand, if any $a_i$ is incorrect, then the first such incorrect answer will have an even number of good triples.
 
 Hence, the sum will be odd if and only if $T$ accepts when the oracle calls are correct. Therefore, $f(x) = 1$ if and only if this accepts for an odd number of choices of all the $a_i$, $b_i$, and $y_i$.
-
 %Hence, the sum will be odd if and only if $T$ accepts when the oracle calls are correct. Therefore, $L$ accepts $x$ if and only if this accepts for an odd number of choices of all the $a_i$, $b_i$, and $y_i$, and $L$ rejects $x$ otherwise. Thus, $L \in \parity \cdot C$. This is true for any $L \in \p^{\parity \cdot C}$, so $\p^{\parity \cdot C} \subseteq \parity \cdot C$.
 \end{proof}
 %\begin{remark}\emph{
