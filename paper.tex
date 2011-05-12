@@ -158,6 +158,22 @@ If $C$ is a complexity class closed under polynomial time reductions. Then $\Sig
 We wish to show that if $f \in \op \cdot C$, then $f \circ T \in \op \cdot C$. We have a $g \in C$ such that $g(\langle T(x), y\rangle)$ has the correct relation to $f$ for $f$ to be in $\op \cdot C$ (for example, for $\Sigma$, if $f(T(x)) = 1$, then there is a $y$ with $g(\langle T(x), y\rangle) = 1$ and if $f(T(x)) = 0$, then for all $y$ $g(\langle T(x), y \rangle) = 0$). However, we can construct a polynomial time Turing machine that takes $\langle x, y\rangle$ to $\langle T(x), y\rangle$, so since $C$ is closed under polynomial time reductions, we have that $h(\langle x,y\rangle) = g(\langle T(x),y\rangle)$ is a function in $C$. As $h(\langle x,y\rangle)$ has the same relation to $f \circ T$ as $g$ does to $f$, we have that $f \in \op \cdot C$, as desired.
 \end{proof}
 
+\section{Basic Operator Results}
+
+Because we will be working with complexity classes defined by sequences of operators applied to $\p$, it will be useful to have several basic results about manipulations that can be performed with operators. We will start with the ability to collapse two identical operators into one.
+
+\begin{prop}\label{collapse}
+Let $C$ be a complexity class. Then $\Sigma\cdot\Sigma\cdot C = \Sigma\cdot C$, $\Pi\cdot\Pi\cdot C = \Pi\cdot C$, and $\strongbp\cdot\strongbp\cdot C = \strongbp \cdot C$.
+\end{prop}
+
+We will also use the following results that allow in one direction the interchanging of $\strongbp$ with the other operators.
+
+\begin{prop}\label{interchange}
+Let $C$ be a complexity class. Then $\Sigma\cdot\strongbp\cdot C \subseteq \strongbp\cdot\Sigma\cdot C$, $\Pi\cdot\strongbp\cdot C \subseteq \strongbp\cdot\Pi\cdot C$, and $\parity\cdot\strongbp\cdot C \subseteq \strongbp\cdot\parity\cdot C$.
+\end{prop}
+
+All of these results are not difficult to verify.
+
 %\section{Closed Under Intersection}
 \section{Amplification of $\bp$ to $\strongbp$\label{amplifysection}}
 
@@ -170,7 +186,7 @@ We say that a complexity class $C$ is \emph{well-structured} if it is $\{\Sigma,
 The aim of this section and the next is to prove the following amplification result:
 
 \begin{theorem}\label{amplify}
-Let $C$ be a well-structured complexity class. Then \emph{$\bp \cdot C = \bp \parity C$}.
+Let $C$ be a well-structured complexity class. Then \emph{$\bp \cdot C = \strongbp \cdot C$}.
 \end{theorem}
 
 Initially, this may seem to be obviously true for the same reasons that $\bp \cdot \p = \strongbp \cdot \p$. The problem is that amplification requires running some machine which accepts a language in $C$ more than once. This requires the structure of $C$ to allow for such repetitions. In particular, we will find that it is nontrivial when the $\parity$ operator is involved. This brings us to the concept of majority reductions.
