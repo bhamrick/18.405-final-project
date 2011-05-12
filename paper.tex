@@ -173,7 +173,9 @@ The aim of this section and the next is to prove the following amplification res
 Let $C$ be a well-structured complexity class. Then \emph{$\bp \cdot C = \bp \parity C$}.
 \end{theorem}
 
-Initially, this may seem to be obviously true for the same reasons that $\bp \cdot \p = \strongbp \cdot \p$. The problem is that amplification requires running some machine which accepts a language in $C$ more than once. This requires the structure of $C$ to allow for such repetitions. In particular, we will find that it is nontrivial when the $\parity$ operator is involved. This brings us to the concept of majority reductions.
+Initially, this may seem to be obviously true for the same reasons that $\bp \cdot \p = \strongbp \cdot \p$. The problem is that amplification requires running some machine which accepts a language in $C$ more than once. This requires the structure of $C$ to allow for such repetitions. In particular, we will find that it is nontrivial when the $\parity$ operator is involved. The fact that we need $C$ to be well-structured rather than just any $\{\Sigma, \Pi, \bp, \parity\}$-constructible class is due to an annoying detail that will come up when we deal with oracles in Section \ref{oracle}. We will cover the non-well-structured case in Section \ref{notwellstruct}.
+
+To show that a class is amplifiable, we need the concept of a majority reduction.
 \begin{definition}\label{defmajority}
 We say that a complexity class $C$ is \emph{closed under majority reductions} if for any partial function $f \in C$, the partial function $\majority(f)$ defined by
 $$\majority(f)(\langle x_1, \ldots, x_k\rangle) = 
@@ -338,6 +340,8 @@ Now, we will show that $\majority(\overline{f})$ is in $\parity \cdot C$. It is 
 
 Thus, $\majority(\overline{f}) \in \p^{\parity \cdot C}$. Thus, we can apply Theorem \ref{oracleparityc} to get that $\majority(\overline{f}) \in \parity \cdot C$. But $\majority(\overline{f})$ is just an extension of $\majority(f)$, so $\majority(f) \in \parity \cdot C$. Therefore $\parity \cdot C$ is closed under majority reductions.
 \end{proof}
+
+\section{The non-well-structured case}\label{notwellstruct}
 
 \section{Conclusion}
 
