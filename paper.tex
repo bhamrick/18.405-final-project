@@ -215,12 +215,12 @@ Now, we see that majority reductions are exactly what we want for amplification:
 If $C$ is a complexity class which is closed under majority reductions and polynomial time reductions, then \emph{$f\in\strongbp \cdot C$.}
 \end{lemma}
 \begin{proof}
-This is now the same application of the Chernoff bound which shows that $\bp \cdot \p = \strongbp \cdot \p$. Suppose $f$ is a partial function in $\bp \cdot C$. Then there is a partial function $g$ in $C$ such that $\pr_y [g(\langle x,y\rangle) = 1] > 2/3$ if $f(x) = 1$ and $\pr_y [g(\langle x, y\rangle) = 0] > 2/3$ if $f(x) = 0$, where the length of $y$ is equal to $p(|x|)$ for some polynomial $p$. Let $q$ be a polynomial, where $e^{-q(|x|)}$ is the desired error probability. Let $k = 48q(|x|)$.
+This is now the same application of the Chernoff bound which shows that $\bp \cdot \p = \strongbp \cdot \p$. Suppose $f$ is a partial function in $\bp \cdot C$. Then there is a partial function $g$ in $C$ such that $\pr_y [g(\langle x,y\rangle) = f(x)] > 2/3$ if $f(x) \ne \x$, where the length of $y$ is equal to $p(|x|)$ for some polynomial $p$. Let $q$ be a polynomial, where $e^{-q(|x|)}$ is the desired error probability. Let $k = 48q(|x|)$.
 
 Here is how we determine the value $f(x)$ with error probability $e^{-q(|x|)}$. Choose $k$ strings $y_1,y_2,...,y_k$ randomly, then return $h(\langle x, y_1y_2\cdots y_k\rangle) = \majority(g)(\langle \langle x, y_1 \rangle, \langle x, y_2 \rangle, \ldots, \langle x, y_k \rangle \rangle)$. Notice that $h$ can be easily reduced to $\majority(g)$ in polynomial time, and is therefore in $C$.
 Let $X_i$ be an indicator variable which is $1$ if $g(\langle x,y_i\rangle)$ agrees with $f(x)$. We have that the $X_i$ are independent Bernoulli random variables with $\pr\left[X_i = 1\right] > \frac{2}{3}$.  Then by the Chernoff bound,
 \begin{align*}
-\pr\left[\sum X_i < k/2\right] &= \pr\left[\sum X_i < (1 - 1/4)(2k/3)\right]\\
+\pr\left[\sum X_i \le k/2\right] &= \pr\left[\sum X_i \le (1 - 1/4)(2k/3)\right]\\
 &< e^{-(1/4)^2 (2k/3) / 2}\\
 &= e^{-q(|x|)} \\
 &< 2^{-q(|x|)}
@@ -270,13 +270,13 @@ By assumption, $C$ is closed under majority reductions and under intersection. T
 \begin{center}
 $X_i = \langle\langle x_i,y_{i,1}\rangle,\langle x_{i},y_{i,2}\rangle,...,\langle x_{i},y_{i,\ell}\rangle\rangle$.
 \end{center}
-By the Chernoff bound, as in the proof of Lemma \ref{majorityimpliesamplify}, we have that $\majority(M)(X_i) = f(x_i)$ with probability greater than $e^{-(1/4)^2 (2\ell/3)/2} \ge 1 - (2/3)^{1/k}$. If $f(x_i) = 1$ for all $i$, then the probability that there exists some $i$ for which $\majority(g)(X_i) \ne 1$ is therefore greater than $((2/3)^{1/k})^k = 2/3$. If there is some $i$ for which $f(x_i) = 0$, then there is a $1 - (2/3)^{1/k} \ge 2/3$ chance that $\majority(g)(X_i) = 0$.
+By the Chernoff bound, as in the proof of Lemma \ref{majorityimpliesamplify}, we have that $\majority(g)(X_i) = f(x_i)$ with probability greater than $e^{-(1/4)^2 (2\ell/3)/2} \ge 1 - (2/3)^{1/k}$. If $f(x_i) = 1$ for all $i$, then the probability that there exists some $i$ for which $\majority(g)(X_i) \ne 1$ is therefore greater than $((2/3)^{1/k})^k = 2/3$. If there is some $i$ for which $f(x_i) = 0$, then there is a $1 - (2/3)^{1/k} \ge 2/3$ chance that $\majority(g)(X_i) = 0$.
 
 Thus, we get that $\intersect(\majority(g))(\langle X_1,...,X_k\rangle) = \intersect(f)(\langle x_1,...,x_k\rangle)$ with probability at least $2/3$. Therefore, since $\intersect(\majority(g)) \in C$, we get that $\intersect(f) \in \bp \cdot C$, so $\bp \cdot C$ is closed under intersection.
 
 %Thus, we get that $(X_1,...,X_k)\in\intersect(\majority(M))$ with probability greater than $2/3$ if $(x_1,x_2,...,x_k)\in L$, and $(X_1,...,X_k)\not\in\intersect(\majority(M))$ with probability greater than $2/3$ if $(x_1,x_2,...,x_k)\not\in L$. Therefore, $\intersect(L) \in \bp \cdot C$, so $\bp \cdot C$ is closed under intersection.
 
-\item[(iv)] Finally, we consider $\parity \cdot C$. If $f \in \parity \cdot C$, then there is a partial function $g \in C$ and a polynomial $p$ such that $f(x) = 1$ if and only if an odd number of $y \in \{0,1\}^{p(|x|)}$ and are such that $g(\langle x, y\rangle) = 1$, and $f(x) = 0$ if and only if there are an even number (but if $g(\langle x,y\rangle) = \x$ for any $y$, then $f(x) = \x$). We want to show that $\intersect(f)$ is in $\parity \cdot C$. Say we have $x_1,x_2,...,x_k$ and we need to verify that all of them are in $f$. Then, accept if there are an odd number of sequences $y_1,y_2,...,y_k$ such that $\intersect(g)(\langle\langle x_1,y_1\rangle,\langle x_2,y_2\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$. To see why this works, let $\# x_i$ be the number of $y_i$ for which $g(\langle x_i,y_i\rangle) = 1$. Then, the number of sequences $y_1,y_2,...,y_k$ for which $\intersect(g)(\langle\langle x_1,y_1\rangle,\langle x_2,y_2\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$ is equal to $(\# x_1)(\# x_2)...(\# x_k)$ which is odd if and only if $\# x_i$ is odd for all $i$.
+\item[(iv)] Finally, we consider $\parity \cdot C$. If $f \in \parity \cdot C$, then there is a partial function $g \in C$ and a polynomial $p$ such that $f(x) = 1$ if and only if an odd number of $y \in \{0,1\}^{p(|x|)}$ and are such that $g(\langle x, y\rangle) = 1$, and $f(x) = 0$ if and only if there are an even number (but if $g(\langle x,y\rangle) = \x$ for any $y$, then $f(x) = \x$). We want to show that $\intersect(f)$ is in $\parity \cdot C$. Say we have $x_1,x_2,...,x_k$ and we need to verify that all of them are in $f$. Then, accept if there are an odd number of sequences $y_1,y_2,...,y_k$ such that $\intersect(g)(\langle\langle x_1,y_1\rangle,\langle x_2,y_2\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$. To see why this works, let $\# x_i$ be the number of $y_i$ for which $g(\langle x_i,y_i\rangle) = 1$. Then, the number of sequences $y_1,y_2,...,y_k$ for which $\intersect(g)(\langle\langle x_1,y_1\rangle,\langle x_2,y_2\rangle,...,\langle x_k,y_k\rangle\rangle) = 1$ is equal to $(\# x_1)(\# x_2)\cdots(\# x_k)$ which is odd if and only if $\# x_i$ is odd for all $i$.
 \end{enumerate}
 \end{proof}
 
@@ -295,7 +295,7 @@ Thus, we get that $\intersect(\majority(g))(\langle X_1,...,X_k\rangle) = \inter
 %$\pr[M\text{ rejects }(x,y)] > 2/3$ if $L$ rejects $x$.
 %\end{center}
 For any $\langle x_1,x_2,...,x_k\rangle$, we randomly choose random strings $y_{i,j}$ of length $p(|x_i|)$, for $1\le i\le k$ and $j\le 1\le \ell$, where $\ell = \lceil -48\ln(1 - (2/3)^{1/k}) \rceil$.
-Now, $\majority(\majority(g)) \in C$, since $C$ is closed under majority reductions. By the Chernoff bound, (as in Lemma \ref{intersectionlemma}) there is at least a $1-(2/3)^{1/k}$ probability that some $X_i = \langle\langle x_i,y_{i,1}\rangle, \langle x_i, y_{i,2}\rangle,...,\langle x_i, x_{i,\ell}\rangle\rangle$ is ``correct," by which we mean that $\majority(g)(X_i) = f(x_i)$.
+Now, $\majority(\majority(g)) \in C$, since $C$ is closed under majority reductions. By the Chernoff bound, (as in Lemma \ref{intersectionlemma}) for any $i$ there is at least a $1-(2/3)^{1/k}$ probability that some $X_i = \langle\langle x_i,y_{i,1}\rangle, \langle x_i, y_{i,2}\rangle,...,\langle x_i, x_{i,\ell}\rangle\rangle$ is ``correct," by which we mean that $\majority(g)(X_i) = f(x_i)$.
 
 Thus, there is at least a $2/3$ chance that \begin{center}$\majority(\majority(g))(\langle X_1,X_2,...,X_k\rangle) = \majority(f)(\langle x_1,x_2,...,x_k\rangle)$.\end{center} Therefore, $\majority(f) \in \bp \cdot C$.
 \end{enumerate}
@@ -308,12 +308,14 @@ To complete the proof of Lemma \ref{amplifymainlemma} (iv), we use the following
 \begin{theorem}\label{oracleparityc}
 %Let $C$ be a class containing \emph{$\p$} which is closed under intersection. Then\linebreak \emph{$\parity \cdot (\p^{\parity \cdot C}) = \parity \cdot C$}.
 %Let $C$ be a $\{\Sigma,\Pi,\parity\}$-constructible class. Then \emph{$ \p^{\parity \cdot C} = \parity \cdot C$}.
-Let $C$ be a class containing \emph{$\p$} which is closed under intersection and such that every function in $C$ is defined everywhere (no \emph{$\x$}'s). Then \emph{$ \p^{\parity \cdot C} = \parity \cdot C$}.
+Let $C$ be a class which is closed under polynomial reductions and is closed under intersection and such that every function in $C$ can be extended to a function which is defined everywhere (replacing all \emph{$\x$}'s with $0$s and $1$s) which is also in $C$. Then \emph{$ \p^{\parity \cdot C} = \parity \cdot C$}.
 \end{theorem}
 \begin{proof}
 The direction $\parity \cdot C \subseteq \p^{\parity \cdot C}$ is trivial. Let us consider the interesting direction\linebreak $\p^{\parity \cdot C}\subseteq \parity\cdot C$.
 
-Suppose $f \in \parity \cdot (P^{\parity\cdot C})$. Then, there is some polynomial time turing machine $T$, equipped with an oracle to some function $g\in \parity\cdot C$, which accepts $x$ if $f(x) = 1$ and rejects $x$ if $f(x) = 0$.
+Suppose $f \in \parity \cdot (P^{\parity\cdot C})$. We can assume without loss of generality that $f$ is defined everywhere (i.e. $f(x) \ne \x$ for all $x$). If $f$ was not defined somewhere, we could extend it to some $\overline{f}$ which is defined everywhere and agrees with $f$ everywhere that $f$ is defined. Then we could show that $\overline{f} \in \parity \cdot C$, and then we would have $f \in \parity \cdot C$.
+
+Thus, we now assume that $f$ is defined everywhere. Then, there is some polynomial time turing machine $T$, equipped with an oracle to some function $g\in \parity\cdot C$, which accepts $x$ if $f(x) = 1$ and rejects $x$ if $f(x) = 0$.
 
 To show that $f$ lies in $\parity\cdot C$, the basic idea is to ``guess" the answers to the oracle calls, and then check them. We make it so that we get an odd number of solutions whenever we guess correctly, and an even number of solutions otherwise.
 
@@ -337,7 +339,7 @@ After guessing, we do the following polynomial time reduction to $\intersect(h)$
 Also find the strings $x_1,x_2,...,x_{p(|x|)}$ which are the inputs that $T$ would query to the oracles. These may depend on the $a_i$. We now want to verify that the oracle calls are correct. Say that $(a_i, b_i, y_i)$ is \emph{good} if either
 \begin{itemize}
 \item $b_i = 0$, and both $a_i = 0$ and $y_i = 0^{r(q(|x|))}$, or
-\item $b_i = 1$ and $h(x_i, y_i)$
+\item $b_i = 1$ and $h(x_i, y_i)$.
 \end{itemize}
 Reject if any $(a_i, b_i, y_i)$ is not good. To determine if they are all good, we will have to check some pairs $(x_i, y_i)$ to see if $h(x_i,y_i) = 1$. We can do this with a call to $\intersect(h)$.
 
@@ -358,11 +360,16 @@ Hence, the sum will be odd if and only if $T$ accepts when the oracle calls are 
 
 We can use this remarkable fact to finish the proof of Lemma \ref{amplifymainlemma}, thus proving Theorem \ref{amplify}.
 \begin{proof}[Proof of Lemma \ref{amplifymainlemma} (iv)]
-Take any function $f \in \parity \cdot C$. If $C$ is $\{\Sigma, \Pi, \parity\}$-constructible, we can extend $f$ to some $\overline{f}$ which is defined everywhere; i.e. $\overline{f}(x) \ne \x$ for all $x$. To extend $f$ in this way, we simply extend the innermost $\p$ function (see Remark \ref{equivtoold}).
+Since $C$ is $\{\Sigma,\Pi,\parity\}$-constructible, it is the case that any function in $C$ can be extended to be defined everywhere. To see this, we simply take any function in $C$ and extend its innermost $\p$ function (see Remark \ref{equivtoold}), giving us the entire definition. The $\Sigma$, $\Pi$, and $\parity$ operators all have the property that they can precisely define a function given the one on the next level. Therefore, by Theorem \ref{oracleparityc}, we have that $\p^{\parity\cdot C} = \parity\cdot C$.
 
-Now, we will show that $\majority(\overline{f})$ is in $\parity \cdot C$. It is easy to see that $\majority(\overline{f}) \in \p^{\parity \cdot C}$. For a given $k$-tuple $(x_1,x_2,...,x_k)$, we use the oracle call to $\parity \cdot C$ to determine how many of the $x_i$ are such that $\overline{f}(x) = 1$ and how many are such that $\overline{f}(x) = 0$. If at least half are accepted, we accept, and if more than half are rejected, we reject.
+Now, we will show that $\majority(f)$ is in $\parity \cdot C$. It is easy to see that $\majority(f) \in \p^{\parity \cdot C}$. For a given $k$-tuple $(x_1,x_2,...,x_k)$, we use the oracle call to $\parity \cdot C$ to determine how many of the $x_i$ are such that $f(x) = 1$ and how many are such that $f(x) = 0$. If at least half are accepted, we accept, and if more than half are rejected, we reject.
 
-Thus, $\majority(\overline{f}) \in \p^{\parity \cdot C}$. Thus, we can apply Theorem \ref{oracleparityc} to get that $\majority(\overline{f}) \in \parity \cdot C$. But $\majority(\overline{f})$ is just an extension of $\majority(f)$, so $\majority(f) \in \parity \cdot C$. Therefore $\parity \cdot C$ is closed under majority reductions.
+Thus, $\majority(f) \in  \p^{\parity \cdot C}$, so $\majority(f) \in \parity \cdot C$. Therefore, $\parity \cdot C$ is closed under intersection.
+%Take any function $f \in \parity \cdot C$. If $C$ is $\{\Sigma, \Pi, \parity\}$-constructible, we can extend $f$ to some $\overline{f}$ which is defined everywhere; i.e. $\overline{f}(x) \ne \x$ for all $x$. To extend $f$ in this way, we simply extend the innermost $\p$ function (see Remark \ref{equivtoold}).
+%
+%Now, we will show that $\majority(\overline{f})$ is in $\parity \cdot C$. It is easy to see that $\majority(\overline{f}) \in \p^{\parity \cdot C}$. For a given $k$-tuple $(x_1,x_2,...,x_k)$, we use the oracle call to $\parity \cdot C$ to determine how many of the $x_i$ are such that $\overline{f}(x) = 1$ and how many are such that $\overline{f}(x) = 0$. If at least half are accepted, we accept, and if more than half are rejected, we reject.
+%
+%Thus, $\majority(\overline{f}) \in \p^{\parity \cdot C}$. Thus, we can apply Theorem \ref{oracleparityc} to get that $\majority(\overline{f}) \in \parity \cdot C$. But $\majority(\overline{f})$ is just an extension of $\majority(f)$, so $\majority(f) \in \parity \cdot C$. Therefore $\parity \cdot C$ is closed under majority reductions.
 \end{proof}
 
 \section{The non-well-structured case}\label{notwellstruct}
