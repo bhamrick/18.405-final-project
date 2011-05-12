@@ -332,11 +332,11 @@ Hence, the sum will be odd if and only if $T$ accepts when the oracle calls are 
 
 We can use this remarkable fact to finish the proof of Lemma \ref{amplifymainlemma}, thus proving Theorem \ref{amplify}.
 \begin{proof}[Proof of Lemma \ref{amplifymainlemma} (iv)]
-Take any function $f \in \parity \cdot C$. If $C$ is $\{\Sigma, \Pi, \parity\}$-constructible, we can assume that $f$ is defined everywhere; any function not defined everywhere can be extended to a function which is, simply by extending the innermost $\p$ function (see Remark \ref{equivtoold}).
+Take any function $f \in \parity \cdot C$. If $C$ is $\{\Sigma, \Pi, \parity\}$-constructible, we can extend $f$ to some $\overline{f}$ which is defined everywhere; i.e. $\overline{f}(x) \ne \x$ for all $x$. To extend $f$ in this way, we simply extend the innermost $\p$ function (see Remark \ref{equivtoold}).
 
-We want to show that $\majority(f)$ is in $\parity \cdot C$. It is easy to see that $\majority(f) \in \p^{\parity \cdot C}$. For a given $k$-tuple $(x_1,x_2,...,x_k)$, we use the oracle call to $\parity \cdot C$ to determine how many of the $x_i$ are accepted in $L$, and how many are rejected. If at least half are accepted, we accept, and if more than half are rejected, we reject.
+Now, we will show that $\majority(\overline{f})$ is in $\parity \cdot C$. It is easy to see that $\majority(\overline{f}) \in \p^{\parity \cdot C}$. For a given $k$-tuple $(x_1,x_2,...,x_k)$, we use the oracle call to $\parity \cdot C$ to determine how many of the $x_i$ are such that $\overline{f}(x) = 1$ and how many are such that $\overline{f}(x) = 0$. If at least half are accepted, we accept, and if more than half are rejected, we reject.
 
-Thus, $\majority(f) \in \p^{\parity \cdot C}$. Thus, we can apply Theorem \ref{oracleparityc} to get that $\majority(f) \in \parity \cdot C$. Therefore $\parity \cdot C$ is closed under majority reductions.
+Thus, $\majority(\overline{f}) \in \p^{\parity \cdot C}$. Thus, we can apply Theorem \ref{oracleparityc} to get that $\majority(\overline{f}) \in \parity \cdot C$. But $\majority(\overline{f})$ is just an extension of $\majority(f)$, so $\majority(f) \in \parity \cdot C$. Therefore $\parity \cdot C$ is closed under majority reductions.
 \end{proof}
 
 \section{Conclusion}
