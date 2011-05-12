@@ -162,17 +162,25 @@ We wish to show that if $f \in \op \cdot C$, then $f \circ T \in \op \cdot C$. W
 
 Because we will be working with complexity classes defined by sequences of operators applied to $\p$, it will be useful to have several basic results about manipulations that can be performed with operators. We will start with the ability to collapse two identical operators into one.
 
-\begin{prop}\label{collapse}
-Let $C$ be a complexity class. Then $\Sigma\cdot\Sigma\cdot C = \Sigma\cdot C$, $\Pi\cdot\Pi\cdot C = \Pi\cdot C$, and $\strongbp\cdot\strongbp\cdot C = \strongbp \cdot C$.
-\end{prop}
+\begin{lemma}\label{collapse}
+Let $C$ be a complexity class closed under polynomial time reductions. Then $\Sigma\cdot\Sigma\cdot C = \Sigma\cdot C$, $\Pi\cdot\Pi\cdot C = \Pi\cdot C$, $\parity\cdot\parity\cdot C = \parity\cdot C$, and $\strongbp\cdot\strongbp\cdot C = \strongbp \cdot C$.
+\end{lemma}
+\begin{proof}
+We begin with $\Sigma\cdot\Sigma\cdot C = \Sigma\cdot C$. Clearly, we have $\Sigma\cdot C \subseteq \Sigma\cdot\Sigma\cdot C$ as we can ignore the added input $y$. Now let $f$ be a partial function in $\Sigma\cdot\Sigma\cdot C$. Then we have a function $g \in \Sigma \cdot C$ such that if $f(x) = 1$ then there exists $y$ of length $p(|x|)$ such that $g(\langle x,y\rangle) = 1$ and if $f(x) = 1$, then for all such $y$ we have $g(\langle x,y\rangle) = 0$. This in turn means that there is a function $h \in C$ such that if $f(x) = 1$ then there exists $y$ of length $p(|x|)$ and $z$ of length $p'(|x|)$ such that $h(\langle x, y, z\rangle) = 1$ and if $f(x) = 0$ then for all such $y,z$ we have $h(\langle x,y,z\rangle) = 0$. Because $C$ is closed under polynomial time reductions, we can instead write this as the function $h'(\langle x,yz\rangle)$, where $yz$ is the concatenation of $y$ and $z$, and thus has length $p(|x|) + p'(|x|)$, and $h' \in C$.Then if $f(x) = 1$, there exists a string $w$ of length $p(|x|)+p'(|x|)$ such that $h'(\langle x,w\rangle) = 1$ and if $f(x) = 0$, for all such strings $w$ we have $h'(\langle x,w\rangle) = 0$, so $f \in \Sigma \cdot C$.
+
+The proof for $\Pi\cdot\Pi\cdot C = \Pi\cdot C$ is similar, and the proof for $\parity\cdot\parity\cdot C = \parity\cdot C$ goes the same way but noting at the end that the sum of an odd number of odd quantities is odd. The proof of $\strongbp\cdot\strongbp\cdot C = \strongbp\cdot C$ again goes the same way, but this time we make $g$ and $h$ wrong with less than half of the desired error rate, and then do a union bound at the end to ensure that we are correct sufficiently often.
+\end{proof}
 
 We will also use the following results that allow in one direction the interchanging of $\strongbp$ with the other operators.
 
-\begin{prop}\label{interchange}
-Let $C$ be a complexity class. Then $\Sigma\cdot\strongbp\cdot C \subseteq \strongbp\cdot\Sigma\cdot C$, $\Pi\cdot\strongbp\cdot C \subseteq \strongbp\cdot\Pi\cdot C$, and $\parity\cdot\strongbp\cdot C \subseteq \strongbp\cdot\parity\cdot C$.
-\end{prop}
+\begin{lemma}\label{interchange}
+Let $C$ be a complexity class closed under polynomial time reductions. Then $\Sigma\cdot\strongbp\cdot C \subseteq \strongbp\cdot\Sigma\cdot C$, $\Pi\cdot\strongbp\cdot C \subseteq \strongbp\cdot\Pi\cdot C$, and $\parity\cdot\strongbp\cdot C \subseteq \strongbp\cdot\parity\cdot C$.
+\end{lemma}
+\begin{proof}
+Let us work through the proof for $\Sigma\cdot\strongbp\cdot C$. Let $f \in \Sigma\cdot\strongbp\cdot C$ and let $q$ be a polynomial. Then there exists a polynomial $p$ and $g \in \strongbp\cdot C$ such that if $f(x) = 1$ then there exists $y$ with length $p(|x|)$ such that $g(\langle x, y\rangle) = 1$ and if $f(x) = 0$ then for every $y$ of length $p(|x|)$, we have $g(\langle x, y\rangle) = 0$. Now since $g \in \strongbp\cdot C$, we have a function $h \in C$ and a polynomial $r(|x|)$ such that $h(\langle x,y,z\rangle) = g(\langle x,y\rangle)$ with probability at least $1 - 2^{-(p(|x|)+q(|x|))}$. In particular, if $f(x) = 1$, then there exists a $y$ such that $h(\langle x,y,z\rangle) = 1$ for at least $1-2^{-(p(|x|)+q(|x|))}$ of the $z$, and if $f(x) = 0$, then the total portion of the $(y,z)$ pairs that can have $h(\langle x,y,z\rangle) = 1$ is at most $2^{p(|x|)}\cdot2^{-(p(|x|)+q(|x|))} = 2^{-q(|x|)}$. Therefore, if we choose a $z$ at random, the probability that there is a $y$ with $h(\langle x, y, z\rangle) = 1$ is at most $2^{-q(|x|)}$. We then consider the function $g'(\langle x,z\rangle)$ which is $1$ if there exists a $y$ such that $h(\langle x,y,z\rangle) = 1$ and $0$ otherwise. Clearly $g' \in \Sigma \cdot C$. By the above argument, $g'(\langle x,z\rangle)$ agrees with $f(x)$ with probability at least $2^{-q(|x|)}$. Since this construction works for any $q$, we have $f \in \strongbp \cdot \Sigma \cdot C$.
 
-All of these results are not difficult to verify.
+The other results follow similarly.
+\end{proof}
 
 %\section{Closed Under Intersection}
 \section{Amplification of $\bp$ to $\strongbp$\label{amplifysection}}
